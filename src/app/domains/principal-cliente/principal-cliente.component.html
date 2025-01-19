@@ -1,0 +1,43 @@
+<nav>
+    <img src="logo.png" alt="SIGSA Logo">
+    <ul class="left">
+      <li><a href="#" (click)="showTable()">Cliente</a></li>
+      <li><a href="#" (click)="showTable()">Mis solicitudes</a></li>
+    </ul>
+    <ul class="right">
+      <li><a href="#" (click)="showProfile($event)">Perfil</a></li>
+      <li><a href="#">Cerrar Sesión</a></li>
+    </ul>
+  </nav>
+  
+  <div *ngIf="showingTable" class="content">
+    <h1>SIGSA</h1>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Número Solicitud</th>
+            <th>Estado</th>
+            <th>Solicitud Completada</th>
+            <th>Pendientes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>Pendiente</td>
+            <td>No</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>En Proceso</td>
+            <td>No</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  
