@@ -1,0 +1,117 @@
+<div class="login-container">
+    <div class="content-wrapper">
+      <div class="image-column">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/d61dc33ae2d10194fefa797917137eefb7ed2d193a68c6362046d1af668e7582?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+          class="hero-image"
+          alt="SIGSA login illustration"
+        />
+      </div>
+      <div class="form-column">
+        <div class="login-card">
+          <h1 class="welcome-text">
+            <span class="welcome-prefix">Bienvenido a</span>
+            <br />
+            <span class="brand-name">SIGSA</span>
+          </h1>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <button type="button" class="social-login-btn google-btn">
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/245cacfebc77e378632151137f8febc7590cbe0d17299a1552837579e07ef9b8?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+                class="social-icon"
+                alt="Google login icon"
+              />
+              <span>Login with Google</span>
+            </button>
+            <button type="button" class="social-login-btn facebook-btn">
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/93cc7d6493b6efbe21ea0b39a633b0b28fc51b315c3dc0c9d41773dc53b060d4?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+                class="social-icon"
+                alt="Facebook login icon"
+              />
+              <span>Login with Facebook</span>
+            </button>
+            <div class="divider">
+              <span class="divider-line"></span>
+              <span class="divider-text">OR</span>
+              <span class="divider-line"></span>
+            </div>
+            <div class="form-group">
+              <label for="email" class="visually-hidden">Email</label>
+              <div class="input-wrapper">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/b94b6d66e50114c0ef54093b52e684bbed84af34a835d5ac64d62b0820443347?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+                  class="input-icon"
+                  alt=""
+                />
+                <div class="input-content">
+                  <span class="input-label">Email</span>
+                  <input
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    placeholder="example@gmail.com"
+                    class="form-input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="visually-hidden">Password</label>
+              <div class="input-wrapper">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/4b248d67c12954c7251cf85b400bcb15abc9892f4f7bf24f2d16a0559ecede3f?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+                  class="input-icon"
+                  alt=""
+                />
+                <div class="input-content">
+                  <span class="input-label">Password</span>
+                  <input
+                    id="password"
+                    [type]="showPassword ? 'text' : 'password'"
+                    formControlName="password"
+                    class="form-input"
+                  />
+                </div>
+                <button 
+                  type="button"
+                  class="toggle-password"
+                  (click)="togglePassword()"
+                  aria-label="Toggle password visibility"
+                >
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/6c51f4d90a112888fcddb83478b04de25f2c78e64bca14f4dc0f78441fe1b029?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+                    class="visibility-icon"
+                    alt=""
+                  />
+                </button>
+              </div>
+            </div>
+            <div class="form-options">
+              <div class="remember-me">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  formControlName="remember"
+                  class="checkbox-input"
+                />
+                <label for="remember">Recordarme inicio de sesion</label>
+              </div>
+              <a href="#" class="forgot-password">Recuperar Contraseña</a>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+          </form>
+          <p class="signup-prompt">
+            No tienes una cuenta?
+            <a href="#" class="signup-link">Registrate</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
