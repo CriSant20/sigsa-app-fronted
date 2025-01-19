@@ -1,0 +1,107 @@
+/* Estilos del navbar */
+nav {
+  background-color: #ECECEC;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+nav img {
+  height: 80px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul.left {
+  margin-right: auto;
+}
+
+nav ul.right {
+  margin-left: auto;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+/* Estilos de la tabla */
+.content {
+  text-align: center;
+  padding: 20px;
+}
+
+.table-container {
+  margin: 20px auto;
+  width: 80%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background-color: #6358DC;
+  color: white;
+}
+
+/* Estilos del perfil */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+h2 {
+  color: #6358DC;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2 .close {
+  cursor: pointer;
+  color: red;
+}
+
+.perfil-datos {
+  text-align: left;
+}
+
+.perfil-datos div {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+}
