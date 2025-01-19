@@ -40,4 +40,15 @@
     </div>
   </div>
   
-  
+   <!-- Modal de perfil -->
+   <div *ngIf="showingProfile" class="overlay">
+    <div class="profile-modal">
+      <h2>Perfil <span class="close" (click)="closeProfile()">x</span></h2>
+      <div class="perfil-datos">
+        <div>Roberto Reyes</div>
+        <div>Universidad Técnica de Ambato</div>
+        <div>Software</div>
+        <div>0987654321</div>
+      </div>
+    </div>
+  </div>
