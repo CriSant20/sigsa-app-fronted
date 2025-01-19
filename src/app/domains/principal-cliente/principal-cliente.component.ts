@@ -22,5 +22,8 @@ export class PrincipalCliente {
     this.showingTable = false;
     this.showingProfile = true;
   }
-
+  closeProfile(): void {
+    this.showingProfile = false;
+    this.showingTable = true;
+  }
 }
