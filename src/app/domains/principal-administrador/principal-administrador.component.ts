@@ -17,7 +17,8 @@ export class PrincipalAdministrador {
     this.showingProfile = false;
   }
 
-  showProfile(): void {
+  showProfile(event: Event): void {
+    event.preventDefault(); // Evita que el enlace cambie la URL
     this.showingTable = false;
     this.showingProfile = true;
   }
