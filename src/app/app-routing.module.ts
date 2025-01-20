@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PrincipalAdministrador } from './domains/principal-administrador/principal-administrador.component';
+import { PrincipalAdministrador } from './Pages/principal-administrador/principal-administrador.component';
 
 const routes: Routes = [
   { path: 'principalAdministrador', component: PrincipalAdministrador },
