@@ -1,0 +1,10 @@
+<div class="menu-overlay" [class.open]="isMenuOpen" (click)="toggleMenu()"></div>
+<div class="menu-container">
+  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  <nav class="menu" [class.open]="isMenuOpen">
+    <ul>
+      <li><a routerLink="/admin" (click)="toggleMenu()">Principal</a></li>
+      <li><a routerLink="/tareas" (click)="toggleMenu()">Tareas</a></li>
+    </ul>
+  </nav>
+</div>

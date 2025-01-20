@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PantallaGestionAdministradorComponent } from './pantalla-gestion-administrador.component';
 
 describe('PantallaGestionAdministradorComponent', () => {
