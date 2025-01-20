@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PrincipalAdministrador } from './Pages/principal-administrador/principal-administrador.component';
+import { PrincipalCliente } from './Pages/principal-cliente/principal-cliente.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PrincipalAdministrador
+    PrincipalCliente
   ],
   imports: [
     BrowserModule,
