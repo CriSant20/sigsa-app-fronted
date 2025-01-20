@@ -1,54 +1,125 @@
-<nav>
-    <img src="logo.png" alt="SIGSA Logo">
-    <ul class="left">
-      <li><a href="#" (click)="showTable()">Cliente</a></li>
-      <li><a href="#" (click)="showTable()">Mis solicitudes</a></li>
-    </ul>
-    <ul class="right">
-      <li><a href="#" (click)="showProfile($event)">Perfil</a></li>
-      <li><a href="#">Cerrar Sesión</a></li>
-    </ul>
-  </nav>
-  
-  <div *ngIf="showingTable" class="content">
-    <h1>SIGSA</h1>
+<div class="sidebar">
+  <img src="logo.png" alt="Logo" class="logo" />
+  <ul class="menu">
+    <li><a routerLink="/solicitudes">Mis Solicitudes</a></li>
+    <li><a (click)="showPerfil()">Perfil</a></li>
+    <li><a (click)="cerrarSesion()">Cerrar Sesión</a></li>
+  </ul>
+</div>
+
+<div class="main-content">
+  <header>
+    <h1>Gestión Cliente</h1>
+  </header>
+
+  <section>
+    <div class="filters">
+      <button (click)="agregarTarea()">Agregar Tarea</button>
+      <input type="text" placeholder="Buscar tarea..." [(ngModel)]="searchQuery" />
+      <select [(ngModel)]="filterState">
+        <option value="">Todos los estados</option>
+        <option value="en revision">En Revisión</option>
+        <option value="aprobado">Aprobado</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
+      <input type="date" [(ngModel)]="startDate" />
+      <input type="date" [(ngModel)]="endDate" />
+      <button (click)="borrarFiltros()">Borrar Filtros</button>
+    </div>
+
     <div class="table-container">
       <table>
         <thead>
           <tr>
-            <th>Número Solicitud</th>
+            <th>Tarea</th>
+            <th>Fecha Entrega</th>
             <th>Estado</th>
-            <th>Solicitud Completada</th>
-            <th>Pendientes</th>
+            <th>Acciones</th>
+            <th>Encuesta</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>001</td>
-            <td>Pendiente</td>
-            <td>No</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>En Proceso</td>
-            <td>No</td>
-            <td>2</td>
+          <tr *ngFor="let tarea of filteredTareas">
+            <td (click)="seleccionarTarea(tarea)">{{ tarea.nombre }}</td>
+            <td (click)="seleccionarTarea(tarea)">{{ formatFecha(tarea.fechaEntrega) }}</td>
+            <td (click)="seleccionarTarea(tarea)">{{ tarea.estado }}</td>
+            <td>
+              <div class="actions">
+                <button class="cancelar" (click)="cancelarPago(tarea, $event)">Cancelar Pago</button>
+                <button class="pago" (click)="pagar(tarea, $event)">Pago</button>
+                <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
+              </div>
+            </td>
+            <td>
+              <button class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
-  
-   <!-- Modal de perfil -->
-   <div *ngIf="showingProfile" class="overlay">
-    <div class="profile-modal">
-      <h2>Perfil <span class="close" (click)="closeProfile()">x</span></h2>
+  </section>
+
+  <footer>
+    <p>SIGSA - ModoCliente</p>
+  </footer>
+
+  <div class="modal" *ngIf="perfilVisible">
+    <div class="modal-content">
+      <button class="close" (click)="closePerfil()">X</button>
+      <h2>Perfil</h2>
+      <img src="logo.png" alt="Logo" class="logo" />
       <div class="perfil-datos">
-        <div>Roberto Reyes</div>
-        <div>Universidad Técnica de Ambato</div>
-        <div>Software</div>
-        <div>0987654321</div>
+        <div><strong>Nombre:</strong> {{ usuario.nombre }}</div>
+        <div><strong>Apellido:</strong> {{ usuario.apellido }}</div>
+        <div><strong>Celular:</strong> {{ usuario.celular }}</div>
+        <div><strong>Correo:</strong> {{ usuario.correo }}</div>
+        <div><strong>Institución:</strong> {{ usuario.institucion }}</div>
+        <div><strong>Carrera:</strong> {{ usuario.carrera }}</div>
       </div>
     </div>
   </div>
+
+  <div class="modal" *ngIf="tareaSeleccionada">
+    <div class="modal-content">
+      <button class="close" (click)="cerrarModalTarea()">X</button>
+      <h2>Detalles de la Tarea</h2>
+      <div class="tarea-datos">
+        <div><strong>Nombre:</strong> {{ tareaSeleccionada.nombre }}</div>
+        <div><strong>Fecha Entrega:</strong> {{ formatFecha(tareaSeleccionada.fechaEntrega) }}</div>
+        <div><strong>Estado:</strong> {{ tareaSeleccionada.estado }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="encuestaVisible">
+    <div class="modal-content">
+      <button class="close" (click)="cerrarEncuesta()">X</button>
+      <h2>Encuesta de Satisfacción</h2>
+      <form (ngSubmit)="enviarEncuesta()">
+        <div>
+          <label>¿Cómo calificaría la atención recibida?</label>
+          <select [(ngModel)]="encuesta.atencion" name="atencion">
+            <option value="excelente">Excelente</option>
+            <option value="buena">Buena</option>
+            <option value="regular">Regular</option>
+            <option value="mala">Mala</option>
+          </select>
+        </div>
+        <div>
+          <label>¿Cómo calificaría la resolución de su tarea?</label>
+          <select [(ngModel)]="encuesta.resolucion" name="resolucion">
+            <option value="excelente">Excelente</option>
+            <option value="buena">Buena</option>
+            <option value="regular">Regular</option>
+            <option value="mala">Mala</option>
+          </select>
+        </div>
+        <div>
+          <label>Comentarios adicionales:</label>
+          <textarea [(ngModel)]="encuesta.comentarios" name="comentarios"></textarea>
+        </div>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</div>
