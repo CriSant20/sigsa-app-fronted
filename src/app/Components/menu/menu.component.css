@@ -1,0 +1,68 @@
+/* Estilo general para el contenedor del menú */
+.menu-container {
+  position: relative;
+}
+.menu-toggle {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 1001;
+}
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s;
+  z-index: 1000;
+}
+.menu-overlay.open {
+  visibility: visible;
+  opacity: 1;
+}
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background-color: #444;
+  color: #fff;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+}
+
+.menu.open {
+  transform: translateX(0);
+}
+
+/* Lista de elementos del menú */
+.menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu ul li {
+  border-bottom: 1px solid #555;
+}
+
+.menu ul li a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 15px;
+}
+
+.menu ul li a:hover {
+  background-color: #555;
+}
