@@ -14,7 +14,7 @@ import { PrincipalCliente } from './Pages/principal-cliente/principal-cliente.co
     BrowserModule,
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
