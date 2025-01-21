@@ -1,0 +1,118 @@
+/* CSS para centralizar y ordenar los elementos */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Barra de Navegación */
+  .navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  /* Menu Lateral */
+  .menu {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    width: 250px;
+    position: fixed; /* Fija el menu a la izquierda */
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999; /* Mantiene el menu siempre sobre los demás elementos */
+  }
+  
+  /* Menú - Estilización de los enlaces */
+  .menu a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  /* Main Content - Contenedor central */
+  .main-content {
+    margin-left: 250px; /* Reserva el espacio del menu */
+    padding: 40px 20px;
+    position: relative; /* Posición relativa para el contenido */
+    z-index: 1; /* Mantiene el contenido principal por encima del fondo */
+  }
+  
+  /* Contenedor Central */
+  .container {
+    max-width: 1200px;
+    padding: 0 15px;
+  }
+  
+  /* Tarjetas */
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: white;
+    margin-bottom: 20px;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Responsividad */
+  @media screen and (max-width: 768px) {
+    .menu {
+        width: 100%; /* Fija el menú para pantallas pequeñas */
+    }
+  
+    .menu a {
+        padding: 10px;
+    }
+  
+    .main-content {
+        margin-left: 0; /* Ajusta para pantallas pequeñas */
+    }
+  
+    .card-img-top {
+        height: 150px;
+    }
+  
+    .main-content {
+        padding: 20px 0;
+    }
+  }
+
+  /* Css para Tabla */
+  .table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    margin-right: 10px;
+  }
+  
+  .details {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  
