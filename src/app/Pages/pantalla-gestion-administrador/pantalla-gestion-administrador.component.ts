@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuComponent } from '../../Components/menu/menu.component';
+import { CardsComponent } from '../../Components/cards/cards.component';
 interface Card {
   imageUrl: string;
   title: string;
@@ -10,7 +11,7 @@ interface Card {
 
 @Component({
   selector: 'app-pantalla-gestion-administrador',
-  imports: [MenuComponent],
+  imports: [MenuComponent, CardsComponent],
   templateUrl: './pantalla-gestion-administrador.component.html',
   styleUrls: ['./pantalla-gestion-administrador.component.css'],
 })
