@@ -14,6 +14,7 @@ export class PrincipalCliente {
   perfilVisible = false;
   tareaSeleccionada: any = null;
   encuestaVisible = false;
+  agregarTareaVisible = false;
   searchQuery = '';
   filterState = '';
   startDate: string | null = null;
@@ -34,6 +35,13 @@ export class PrincipalCliente {
     atencion: '',
     resolucion: '',
     comentarios: ''
+  };
+  nuevaTarea = {
+    nombre: '',
+    tipo: '',
+    detalle: '',
+    rubrica: '',
+    adjunto: null as File | null
   };
 
   constructor(private router: Router) {}
@@ -104,8 +112,24 @@ export class PrincipalCliente {
     window.location.href = 'http://localhost:4200/login';
   }
 
-  agregarTarea() {
-    alert('Funcionalidad para agregar tarea aún no implementada.');
+  abrirModalAgregarTarea() {
+    this.agregarTareaVisible = true;
+  }
+
+  cerrarModalAgregarTarea() {
+    this.agregarTareaVisible = false;
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.nuevaTarea.adjunto = file;
+    }
+  }
+
+  guardarTarea() {
+    alert('Tarea guardada con éxito.');
+    this.cerrarModalAgregarTarea();
   }
 
   formatFecha(fecha: string): string {
