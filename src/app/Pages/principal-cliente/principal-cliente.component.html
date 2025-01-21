@@ -14,7 +14,7 @@
 
   <section>
     <div class="filters">
-      <button (click)="agregarTarea()">Agregar Tarea</button>
+      <button (click)="abrirModalAgregarTarea()">Agregar Tarea</button>
       <input type="text" placeholder="Buscar tarea..." [(ngModel)]="searchQuery" />
       <select [(ngModel)]="filterState">
         <option value="">Todos los estados</option>
@@ -26,7 +26,6 @@
       <input type="date" [(ngModel)]="endDate" />
       <button (click)="borrarFiltros()">Borrar Filtros</button>
     </div>
-
     <div class="table-container">
       <table>
         <thead>
@@ -63,8 +62,9 @@
     <p>SIGSA - ModoCliente</p>
   </footer>
 
+  <!-- Modal de Perfil -->
   <div class="modal" *ngIf="perfilVisible">
-    <div class="modal-content">
+    <div class="modal-content perfil">
       <button class="close" (click)="closePerfil()">X</button>
       <h2>Perfil</h2>
       <img src="logo.png" alt="Logo" class="logo" />
@@ -119,6 +119,49 @@
           <textarea [(ngModel)]="encuesta.comentarios" name="comentarios"></textarea>
         </div>
         <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Agregar Tarea -->
+  <div class="modal" *ngIf="agregarTareaVisible">
+    <div class="modal-content agregar-tarea">
+      <button class="close" (click)="cerrarModalAgregarTarea()">X</button>
+      <h2>Agregar Tarea</h2>
+      <form (ngSubmit)="guardarTarea()">
+        <div>
+          <label>Tarea:</label>
+          <input type="text" [(ngModel)]="nuevaTarea.nombre" name="nombre" required />
+        </div>
+        <div>
+          <label>Tipo:</label>
+          <select [(ngModel)]="nuevaTarea.tipo" name="tipo" required>
+            <option value="tarea">Tarea</option>
+            <option value="articulo">Artículo</option>
+            <option value="ejercicios">Ejercicios</option>
+            <option value="informe">Informe</option>
+            <option value="infografia">Infografía</option>
+            <option value="presentacion">Presentación</option>
+          </select>
+        </div>
+        <div>
+          <label>Indicaciones/Detalle:</label>
+          <textarea [(ngModel)]="nuevaTarea.detalle" name="detalle" required></textarea>
+        </div>
+        <div>
+          <label>Rúbrica:</label>
+          <textarea [(ngModel)]="nuevaTarea.rubrica" name="rubrica" required></textarea>
+        </div>
+        <div>
+          <label>Adjunto:</label>
+          <div class="file-info">{{ nuevaTarea.adjunto?.name || '' }}</div>
+          <label class="file-label" for="adjunto">Seleccionar archivo</label>
+          <input type="file" id="adjunto" (change)="onFileSelected($event)" />
+        </div>
+        <div class="buttons">
+          <button type="button" class="cancel" (click)="cerrarModalAgregarTarea()">Cancelar</button>
+          <button type="submit" class="save">Guardar</button>
+        </div>
       </form>
     </div>
   </div>
