@@ -1,0 +1,108 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #2c3e50;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Logo */
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Menú desplegable */
+.navbar .menu {
+    position: relative;
+}
+
+/* Botón de menú */
+.navbar .menu-button {
+    background-color: #2c3e50;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+/* Flecha abajo */
+.navbar .menu-button i {
+    transition: transform 0.3s;
+}
+
+/* Submenú */
+.navbar .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #2c3e50;
+    border: 1px solid #444;
+    display: none;
+    flex-direction: column;
+    width: 200px;
+    z-index: 1000;
+}
+
+/* Enlace del submenú */
+.navbar .submenu a {
+    color: #ffffff;
+    padding: 0.5rem;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+/* Fondo al hover del enlace del submenú */
+.navbar .submenu a:hover {
+    background-color: #34495e;
+}
+
+/* Mostrar submenú en hover */
+.navbar .menu-button:hover + .submenu {
+    display: flex;
+}
+
+/* Flecha animada */
+.navbar .menu-button:hover i {
+    transform: rotate(180deg);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .navbar .menu {
+        position: static;
+    }
+
+    .navbar .menu-button {
+        width: 100%;
+        text-align: left;
+        justify-content: space-between;
+    }
+
+    .navbar .submenu {
+        position: static;
+        background-color: #2c3e50;
+        border: none;
+        width: 100%;
+    }
+
+    .navbar .submenu a {
+        padding: 0.75rem 1rem;
+    }
+}
