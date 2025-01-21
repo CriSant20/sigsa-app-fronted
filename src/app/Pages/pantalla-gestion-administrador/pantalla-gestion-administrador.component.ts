@@ -1,36 +1,14 @@
 import { Component } from '@angular/core';
+import { FooterComponent } from '../../Components/footer/footer.component';
+import { HeaderComponent } from '../../Components/header/header.component';
 import { MenuComponent } from '../../Components/menu/menu.component';
+import { NavbarComponent } from '../../Components/navbar/navbar.component';
 import { CardsComponent } from '../../Components/cards/cards.component';
-interface Card {
-  imageUrl: string;
-  title: string;
-  subtitle: string;
-  content: string;
-  icons: string[];
-}
-
 @Component({
   selector: 'app-pantalla-gestion-administrador',
-  imports: [MenuComponent, CardsComponent],
+  imports: [FooterComponent, HeaderComponent, MenuComponent, NavbarComponent, CardsComponent],
   templateUrl: './pantalla-gestion-administrador.component.html',
   styleUrls: ['./pantalla-gestion-administrador.component.css'],
+  standalone:true,
 })
-export class PantallaGestionAdministradorComponent {
-  cards: Card[] = [
-    {
-      imageUrl: 'https://via.placeholder.com/300x180',
-      title: 'Card Title 1',
-      subtitle: 'Card Subtitle 1',
-      content:
-        'This is an example card content. You can replace it with your content.',
-      icons: ['edit', 'delete'],
-    },
-    {
-      imageUrl: 'https://via.placeholder.com/300x180',
-      title: 'Card Title 2',
-      subtitle: 'Card Subtitle 2',
-      content: 'This is another example card content. Customize as needed.',
-      icons: ['favorite', 'share'],
-    },
-  ];
-}
+export class PantallaGestionAdministradorComponent {}

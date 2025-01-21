@@ -1,79 +1,100 @@
-/* Estilo general para el body */
+/* CSS para centralizar y ordenar los elementos */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-/* Estilo del header */
-header {
-  background-color: #945d5d;
+/* Barra de Navegación */
+.navbar {
+  background-color: #007bff;
   color: white;
+  padding: 10px 0;
   text-align: center;
-  padding: 20px;
 }
 
-/* Menú desplegable a la izquierda */
-.sidebar {
-  height: 100%;
+/* Menu Lateral */
+.menu {
+  background-color: #f8f9fa;
+  padding: 10px 0;
   width: 250px;
-  position: fixed;
+  position: fixed; /* Fija el menu a la izquierda */
+  height: 100%;
   top: 0;
   left: 0;
-  background-color: #111;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
+  z-index: 999; /* Mantiene el menu siempre sobre los demás elementos */
 }
 
-.sidebar a {
-  padding: 10px 15px;
+/* Menú - Estilización de los enlaces */
+.menu a {
+  color: #333;
   text-decoration: none;
-  font-size: 18px;
-  color: white;
-  transition: background-color 0.3s;
+  display: block;
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-.sidebar a:hover {
-  background-color: #575757;
-}
-
-/* Contenido principal */
+/* Main Content - Contenedor central */
 .main-content {
-  margin-left: 250px;
-  padding: 20px;
-  flex-grow: 1;
+  margin-left: 250px; /* Reserva el espacio del menu */
+  padding: 40px 20px;
+  position: relative; /* Posición relativa para el contenido */
+  z-index: 1; /* Mantiene el contenido principal por encima del fondo */
 }
 
-/* Estilo del footer */
-footer {
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  position: absolute;
-  bottom: 0;
+/* Contenedor Central */
+.container {
+  max-width: 1200px;
+  padding: 0 15px;
+}
+
+/* Tarjetas */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: white;
+  margin-bottom: 20px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
   width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
+.card-body {
   padding: 20px;
+  text-align: center;
 }
 
-mat-card {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-}
+/* Responsividad */
+@media screen and (max-width: 768px) {
+  .menu {
+      width: 100%; /* Fija el menú para pantallas pequeñas */
+  }
 
-mat-card-actions {
-  display: flex;
-  justify-content: space-between;
+  .menu a {
+      padding: 10px;
+  }
+
+  .main-content {
+      margin-left: 0; /* Ajusta para pantallas pequeñas */
+  }
+
+  .card-img-top {
+      height: 150px;
+  }
+
+  .main-content {
+      padding: 20px 0;
+  }
 }
