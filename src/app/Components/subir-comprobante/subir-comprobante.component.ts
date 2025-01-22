@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UploadService } from './upload.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -63,7 +63,10 @@ export class SubirComprobanteComponent {
       this.handleFiles(files);
     }
   }
-
+  @Output() cerrar = new EventEmitter<void>();
+  cerrarComprobante() {
+    this.cerrar.emit();
+  }
   handleFiles(files: FileList): void {
     Array.from(files).forEach(file => {
       if (file.size > 52428800) {

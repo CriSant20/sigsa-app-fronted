@@ -2,15 +2,17 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { SubirComprobanteComponent } from '../../Components/subir-comprobante/subir-comprobante.component';
 @Component({
   selector: 'app-principal-cliente',
   templateUrl: './principal-cliente.component.html',
   styleUrls: ['./principal-cliente.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, SubirComprobanteComponent,]
 })
 export class PrincipalCliente {
+
+  
   perfilVisible = false;
   tareaSeleccionada: any = null;
   encuestaVisible = false;
@@ -35,8 +37,12 @@ export class PrincipalCliente {
     resolucion: '',
     comentarios: ''
   };
+  mostrarComprobante: boolean = false;
 
-  constructor(private router: Router) {}
+
+
+
+  constructor(private router: Router, ) {}
 
   get filteredTareas() {
     return this.tareas.filter((tarea) => {
@@ -61,8 +67,11 @@ export class PrincipalCliente {
     event.stopPropagation();
     alert(`Pago cancelado para ${tarea.nombre}`);
   }
-
+  cerrarComprobante(): void {
+    this.mostrarComprobante = false;
+  }
   pagar(tarea: any, event: Event) {
+    this.mostrarComprobante = true;
     event.stopPropagation();
     alert(`Pago realizado para ${tarea.nombre}`);
   }

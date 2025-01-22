@@ -194,3 +194,37 @@ footer {
   padding: 20px;
   border-radius: 10px;
 }
+
+
+/* Cuadro emergente */
+
+/* Estilo para el cuadro emergente */
+app-subir-comprobante {
+  position: fixed; /* Fija el cuadro en la pantalla */
+  top: 50%; /* Centrado vertical */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-50%, -50%); /* Centrado exacto */
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Asegura que esté encima de otros elementos */
+  
+  width: 400px;
+  height: 300px;
+  display: block;
+}
+
+/* Fondo oscuro para la superposición */
+.mostrar {
+  display: block;
+}
+
+.mostrar::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+  z-index: -1; /* Asegura que el fondo no tape el modal */
+}

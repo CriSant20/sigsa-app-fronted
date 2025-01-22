@@ -46,6 +46,8 @@
             <td>
               <div class="actions">
                 <button class="cancelar" (click)="cancelarPago(tarea, $event)">Cancelar Pago</button>
+                <!-- El cuadro que aparece de manera superpuesta -->
+<app-subir-comprobante *ngIf="mostrarComprobante" (cerrar)="cerrarComprobante()"></app-subir-comprobante>
                 <button class="pago" (click)="pagar(tarea, $event)">Pago</button>
                 <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
               </div>
