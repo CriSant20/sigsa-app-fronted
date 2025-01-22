@@ -22,8 +22,11 @@
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/245cacfebc77e378632151137f8febc7590cbe0d17299a1552837579e07ef9b8?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
                 class="social-icon"
                 alt="Google login icon"
+             
               />
-              <span>Login with Google</span>
+              <span>   <a href="http://localhost:3000/api/auth/google" target="_blank" rel="noopener noreferrer">
+                Login with Google
+              </a></span>
             </button>
             <button type="button" class="social-login-btn facebook-btn">
               <img
@@ -49,12 +52,12 @@
                   alt=""
                 />
                 <div class="input-content">
-                  <span class="input-label">Email</span>
+                  <span class="input-label">Nombre de usuario</span>
                   <input
                     id="email"
-                    type="email"
-                    formControlName="email"
-                    placeholder="example@gmail.com"
+                    type="text"
+                    formControlName="nombre_usuario"
+                    placeholder="Username"
                     class="form-input"
                   />
                 </div>
@@ -115,3 +118,19 @@
       </div>
     </div>
   </div>
+
+
+  <style>
+    /* Estilos CSS */
+    a {
+      text-decoration: none; /* Quita el subrayado */
+      color: inherit;        /* Hereda el color del texto circundante */
+    }
+  
+    a:hover {
+      text-decoration: underline; /* Opcional: subrayado solo al pasar el cursor */
+      color: #555;               /* Cambia el color al pasar el cursor */
+    }
+  
+   
+  </style>
