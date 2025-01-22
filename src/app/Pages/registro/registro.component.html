@@ -18,33 +18,40 @@
         </div>
         <h1>Registrate</h1>
         <p>Unete a nosotros, la mejor ayuda compuesta por asesores de maximo nivel</p>
-        <form>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="input-group">
-                <input type="text" placeholder="Nombres">
+                <input type="text" placeholder="Nombre de usuario" formControlName="nombre_usuario">
             </div>
             <div class="input-group">
-                <input type="text" placeholder="Apellidos">
+                <input type="text" placeholder="Nombres" formControlName="nombre">
             </div>
             <div class="input-group">
-                <input type="text" placeholder="Numero de celular">
+                <input type="text" placeholder="Apellidos" formControlName="apellido">
             </div>
             <div class="input-group">
-                <input type="email" placeholder="Correo">
+                <input type="text" placeholder="Numero de celular" formControlName="numero">
             </div>
             <div class="input-group">
-                <input type="password" placeholder="Contrasena">
+                <input type="email" placeholder="Correo" formControlName="correo">
             </div>
             <div class="input-group">
-                <input type="text" placeholder="Nivel">
+                <input type="password" placeholder="Contrasena" formControlName="password">
             </div>
+            
             <div class="input-group">
-                <input type="text" placeholder="Institucion">
-            </div>
+                <select formControlName="institucion" >
+                    <option value="" disabled selected invalid>Selecciona una institución</option>
+                  <option value="colegio">Colegio</option>
+                  <option value="universidad">Universidad</option>
+                  <option value="escuela">Escuela</option>
+                  <option value="independiente">Independiente</option>
+                </select>
+              </div>
             <div class="input-group">
-                <input type="password" placeholder="Carrera/Tecnologado/Materia">
+                <input type="text" placeholder="Carrera" formControlName="carrera">
             </div>
             <div class="checkbox-group">
-                <input type="checkbox" id="terms">
+                <input type="checkbox" id="terms" formControlName="terms">
                 <label for="terms">Confirmar contrasena</label>
             </div>
             <button type="submit">Continuar</button>
