@@ -375,3 +375,36 @@ header h1, .logo {
 .submit:hover {
   background-color: #45a049;
 }
+
+.comentarios-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.comentario-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.comentario-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.nuevo-comentario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nuevo-comentario textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

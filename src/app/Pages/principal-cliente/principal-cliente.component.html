@@ -143,8 +143,28 @@
     <div class="modal-content">
       <button class="close" (click)="cerrarModalComentario()">X</button>
       <h2>Comentarios</h2>
-      <textarea [(ngModel)]="comentarios" rows="5" cols="50"></textarea>
-      <button (click)="guardarComentario()">Guardar</button>
+      
+      <div class="comentarios-list">
+        <div *ngFor="let comentario of comentarios" class="comentario-item">
+          <div class="comentario-header">
+            <span class="usuario">Usuario {{comentario.id_usuario}}</span>
+            <span class="fecha">{{comentario.fecha_comentario | date:'dd/MM/yyyy HH:mm'}}</span>
+          </div>
+          <div class="comentario-texto">
+            {{comentario.comentario}}
+          </div>
+        </div>
+      </div>
+  
+      <div class="nuevo-comentario">
+        <textarea 
+          [(ngModel)]="nuevoComentario" 
+          rows="3" 
+          placeholder="Escriba un comentario..."
+          name="nuevoComentario"
+        ></textarea>
+        <button (click)="guardarComentario()">Enviar</button>
+      </div>
     </div>
   </div>
 

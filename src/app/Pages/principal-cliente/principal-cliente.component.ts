@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Core/Services/auth.service';
 import { UserProfile } from '../../Core/Interfaces/user-profile';
-import { Tarea } from '../../Core/Interfaces/tarea.interface';
+import { Comentario, Tarea } from '../../Core/Interfaces/tarea.interface';
 import { TareasService } from '../../Core/Services/tareas.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ComentariosService } from '../../Core/Services/comentarios.service';
 
 @Component({
   selector: 'app-principal-cliente',
@@ -21,6 +22,7 @@ export class PrincipalCliente {
 
   authService = inject(AuthService);
   tareasService = inject(TareasService);
+  comentariosService = inject(ComentariosService);
 
   id: number | undefined = undefined;
   perfilVisible = false;
@@ -35,7 +37,8 @@ export class PrincipalCliente {
   filterState = '';
   fechaInicio: string | null = null;
   fechaFin: string | null = null;
-  comentarios = '';
+  comentarios:Comentario[] = [];
+  nuevoComentario: string = '';
   nuevaTarea!: Tarea;
 
   usuario?: UserProfile;
@@ -148,9 +151,13 @@ export class PrincipalCliente {
     alert(`Pago realizado para ${tarea.nombre}`);
   }
 
-  abrirChat(tarea: any, event: Event) {
+  abrirChat(tarea: Tarea, event: Event) {
     event.stopPropagation();
-    this.comentarioVisible = true;
+    this.comentariosService.getComentariosByTarea(tarea.id!).subscribe((comentarios) => {
+      console.log(comentarios);
+      this.comentarios = comentarios;
+      this.comentarioVisible = true;
+    });
   }
 
   mostrarInformacion(tarea: any, event: Event) {
