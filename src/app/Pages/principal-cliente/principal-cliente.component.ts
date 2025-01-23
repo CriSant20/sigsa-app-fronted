@@ -34,6 +34,7 @@ export class PrincipalCliente {
   fechaInicio: string | null = null;
   fechaFin: string | null = null;
   comentarios = '';
+  nuevaTarea!: Tarea;
 
   usuario?: UserProfile;
 
@@ -47,24 +48,32 @@ export class PrincipalCliente {
     resolucion: '',
     comentarios: ''
   };
-  nuevaTarea = {
-    nombre: '',
-    indicaciones: '',
-    usuario_cliente_id: this.id,
-    rubrica: '',
-    fecha_a_realizar: '',
-    tipo: '',
-    adjunto: null as File | null
-  };
+
+
 
   constructor(private router: Router) {
     this.id = this.authService.getUserProfile()!.usuario_id;
+
+    this.nuevaTarea = {
+      nombre: '',
+      indicaciones: '',
+      usuario_cliente_id: this.id!,
+      rubrica: '',
+      fecha_a_realizar: '',
+      tipo_tarea: '',
+      adjunto: undefined as File | undefined
+    };
+
     this.authService.getUser(this.id!).subscribe((user) => {
       this.usuario = user;
     });
   }
 
   ngOnInit() {
+    this.getTareas();
+  }
+
+  getTareas(){
     this.tareasService.getTareasByUser(this.id!).subscribe((tareas) => {
       console.log(tareas);
       this.tareasUsuarios = tareas;
@@ -80,7 +89,7 @@ export class PrincipalCliente {
       // Existing filters
       const matchesState = !this.filterState || tarea.estado === this.filterState;
       const matchesFechaInicio = !this.fechaInicio || 
-        new Date(tarea.fecha_envio) >= new Date(this.fechaInicio);
+        tarea.fecha_envio! >= new Date(this.fechaInicio);
       const matchesFechaFin = !this.fechaFin || 
         new Date(tarea.fecha_a_realizar) <= new Date(this.fechaFin);
 
@@ -190,14 +199,50 @@ export class PrincipalCliente {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
+      if (file.type !== 'application/pdf') {
+        alert('Solo se permiten archivos PDF');
+        event.target.value = '';
+        return;
+      }
+      if (file.size > 1024 * 1024 * 8) { // 8MB max
+        alert('El archivo no debe superar 8MB');
+        event.target.value = '';
+        return;
+      }
       this.nuevaTarea.adjunto = file;
     }
   }
 
   guardarTarea() {
-    console.log(this.nuevaTarea);
-    alert('Tarea guardada con éxito.');
-    this.cerrarModalAgregarTarea();
+    if (!this.nuevaTarea.adjunto) {
+      alert('Debe adjuntar un archivo PDF');
+      return;
+    }
+
+    this.tareasService.createTarea(this.nuevaTarea).subscribe({
+      next: (tarea) => {
+        alert('Tarea guardada con éxito');
+        this.resetForm();
+        this.cerrarModalAgregarTarea();
+        this.getTareas();
+      },
+      error: (error) => {
+        alert('Error al guardar la tarea: ' + error.message);
+        console.error('Error:', error);
+      }
+    });
+  }
+
+  private resetForm() {
+    this.nuevaTarea = {
+      nombre: '',
+      indicaciones: '',
+      usuario_cliente_id: this.id!,
+      rubrica: '',
+      fecha_a_realizar: '',
+      tipo_tarea: '',
+      adjunto: undefined
+    };
   }
 
 }

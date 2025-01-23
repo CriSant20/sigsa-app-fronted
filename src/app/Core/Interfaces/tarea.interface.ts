@@ -1,19 +1,20 @@
 export interface Tarea {
-    id:                  number;
+    id?:                  number;
     usuario_cliente_id:  number;
     nombre:              string;
     tipo_tarea:          string;
     indicaciones:        string;
     rubrica:             string;
-    estado:              string;
-    adjunto_url:         string;
-    tarea_realizada_url: null | string;
-    costo:               number | null;
-    fecha_envio:         Date;
-    fecha_a_realizar:    Date;
-    fecha_realizada:     Date | null;
-    comentarios:         Comentario[];
-    encuestas:           Encuesta[];
+    estado?:              string;
+    adjunto_url?:         string;
+    adjunto?:             File;
+    tarea_realizada_url?: null | string;
+    costo?:               number | null;
+    fecha_envio?:         Date;
+    fecha_a_realizar:    Date | string;
+    fecha_realizada?:     Date | null;
+    comentarios?:         Comentario[];
+    encuestas?:           Encuesta[];
 }
 
 export interface Comentario {

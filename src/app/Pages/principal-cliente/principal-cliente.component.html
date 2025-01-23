@@ -181,13 +181,14 @@
         </div>
         <div>
           <label>Tipo:</label>
-          <select [(ngModel)]="nuevaTarea.tipo" name="tipo" required>
-            <option value="tarea">Tarea</option>
-            <option value="articulo">Artículo</option>
-            <option value="ejercicios">Ejercicios</option>
-            <option value="informe">Informe</option>
-            <option value="infografia">Infografía</option>
-            <option value="presentacion">Presentación</option>
+          <select [(ngModel)]="nuevaTarea.tipo_tarea" name="tipo" required>
+            <option value="Informe">Informe</option>
+            <option value="Tarea">Tarea</option>
+            <option value="Proyecto">Proyecto</option>
+            <option value="Investigacion">Investigación</option>
+            <option value="Ensayo">Ensayo</option>
+            <option value="Articulo">Artículo</option>
+            <option value="Consulta">Consulta</option>
           </select>
         </div>
         <div>
@@ -207,7 +208,7 @@
         </div>
         <div>
           <label>Adjunto:</label>
-          <div class="file-info">{{ nuevaTarea.adjunto?.name || '' }}</div>
+          <div class="file-info">{{ nuevaTarea.adjunto?.name || 'No adjunto seleccionado' }}</div>
           <label class="file-label" for="adjunto">Seleccionar archivo</label>
           <input type="file" id="adjunto" (change)="onFileSelected($event)" />
         </div>
