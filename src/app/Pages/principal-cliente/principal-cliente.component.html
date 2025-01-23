@@ -47,7 +47,7 @@
         <tbody>
           <tr *ngFor="let tarea of filteredTareas">
             <td>{{ tarea.nombre }}</td>
-            <td>{{ tarea.fecha_envio | date:'dd-MM-yyyy' }}</td>
+            <td>{{ tarea.fecha_envio | date:'yyyy-MM-dd' }}</td>
             <td>{{ tarea.fecha_a_realizar}}</td>
             <td>{{ tarea.estado }}</td>
             <td>

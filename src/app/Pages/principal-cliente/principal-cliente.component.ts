@@ -7,15 +7,6 @@ import { UserProfile } from '../../Core/Interfaces/user-profile';
 import { Tarea } from '../../Core/Interfaces/tarea.interface';
 import { TareasService } from '../../Core/Services/tareas.service';
 
-export enum TaskState {
-  EN_REVISION = "En Revisión",
-  APROBADA = "Aprobada",
-  EN_PROGRESO = "En Progreso",
-  FINALIZADO = "Finalizado",
-  RECHAZADA = "Rechazada",
-  CANCELADA = "Cancelada"
-}
-
 @Component({
   selector: 'app-principal-cliente',
   templateUrl: './principal-cliente.component.html',
