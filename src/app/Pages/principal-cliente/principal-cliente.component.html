@@ -62,7 +62,15 @@
               </div>
             </td>
             <td>
-              <button class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
+              @if (tarea.estado === 'Finalizado') {
+                <button  class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
+              }
+              @else if (tarea.estado === "Rechazada") {
+                <p>Rechazada</p>
+              }
+              @else{
+                <p>No finalizado</p>
+              }
             </td>
           </tr>
         </tbody>
