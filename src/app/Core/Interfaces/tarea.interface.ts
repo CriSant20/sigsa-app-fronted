@@ -1,3 +1,4 @@
+import { Comprobante } from "./comprobante.interface";
 import { UserProfile } from "./user-profile";
 
 export interface Tarea {
@@ -17,6 +18,7 @@ export interface Tarea {
     fecha_realizada?:     Date | null;
     comentarios?:         Comentario[];
     encuestas?:           Encuesta[];
+    comprobantes?:         Comprobante[];
 }
 
 export interface Comentario {

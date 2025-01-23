@@ -56,20 +56,20 @@
               <div class="actions">
                 <button *ngIf="tarea.estado === 'en revision'" class="cancelar"
                   (click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
-                <button class="pago" (click)="pagar(tarea, $event)">Pago</button>
+                <button class="pago" (click)="abrirModalComprobante(tarea, $event)">Pago</button>
                 <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
                 <button class="informacion" (click)="mostrarInformacion(tarea, $event)">Información</button>
               </div>
             </td>
             <td>
               @if (tarea.estado === 'Finalizado') {
-                <button  class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
+              <button class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
               }
               @else if (tarea.estado === "Rechazada") {
-                <p>Rechazada</p>
+              <p>Rechazada</p>
               }
               @else{
-                <p>No finalizado</p>
+              <p>No finalizado</p>
               }
             </td>
           </tr>
@@ -129,7 +129,7 @@
         <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada!.fecha_envio | date:'yyyy-MM-dd' }}</div>
         <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada!.fecha_a_realizar}}</div>
         <div><strong>Fecha Realizada:</strong> {{ tareaSeleccionada!.fecha_realizada || 'Aun no se ha realizado'}}</div>
-        
+
         <div><strong>Estado:</strong> {{ tareaSeleccionada!.estado }}</div>
         <div><strong>Rubrica de la tarea:</strong> {{ tareaSeleccionada!.rubrica }}</div>
         <div><strong>Indicaciones de la tarea:</strong> {{ tareaSeleccionada!.indicaciones }}</div>
@@ -143,7 +143,7 @@
     <div class="modal-content">
       <button class="close" (click)="cerrarModalComentario()">X</button>
       <h2>Comentarios</h2>
-      
+
       <div class="comentarios-list">
         <div *ngFor="let comentario of comentarios" class="comentario-item">
           <div class="comentario-header">
@@ -155,19 +155,13 @@
           </div>
         </div>
       </div>
-  
+
       <div class="nuevo-comentario">
-        <textarea 
-          [(ngModel)]="nuevoComentario" 
-          rows="3" 
-          placeholder="Escriba un comentario..."
-          name="nuevoComentario"
-        ></textarea>
-        <button 
-          (click)="guardarComentario()" 
-          [disabled]="!nuevoComentario.trim()"
-        >Enviar</button>
+        <textarea [(ngModel)]="nuevoComentario" rows="3" placeholder="Escriba un comentario..."
+          name="nuevoComentario"></textarea>
+        <button (click)="guardarComentario()" [disabled]="!nuevoComentario.trim()">Enviar</button>
       </div>
+    </div>
   </div>
 
   <!-- Modal de Encuesta -->
@@ -202,15 +196,8 @@
         </div>
         <div>
           <label>¿Qué nota obtuviste en la tarea?</label>
-          <input 
-            type="number" 
-            [(ngModel)]="encuesta.nota" 
-            name="nota"
-            min="0"
-            max="10"
-            required
-            placeholder="Ingrese nota (0-10)"
-          />
+          <input type="number" [(ngModel)]="encuesta.nota" name="nota" min="0" max="10" required
+            placeholder="Ingrese nota (0-10)" />
         </div>
         <button type="submit">Enviar</button>
       </form>
@@ -249,14 +236,8 @@
         </div>
         <div>
           <label>Fecha a realizar:</label>
-          <input 
-            type="date" 
-            [(ngModel)]="nuevaTarea.fecha_a_realizar" 
-            name="fecha_a_realizar" 
-            required
-            min="2024-01-01"
-            max="2030-12-31"
-          />
+          <input type="date" [(ngModel)]="nuevaTarea.fecha_a_realizar" name="fecha_a_realizar" required min="2024-01-01"
+            max="2030-12-31" />
         </div>
         <div>
           <label>Adjunto:</label>
@@ -268,3 +249,35 @@
           <button type="submit" class="submit">Enviar</button>
           <button type="button" class="cancel" (click)="cerrarModalAgregarTarea()">Cancelar</button>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de comprobantes -->
+  <div class="modal" *ngIf="comprobanteVisible">
+    <div class="modal-content">
+      <button class="close" (click)="cerrarModalComprobante()">X</button>
+      <h2>Subir Comprobante de Pago</h2>
+      @if(tareaSeleccionada?.estado !== "Aprobada") {
+        <form (ngSubmit)="enviarComprobante()">
+          <div>
+            <label>Comprobante (Solo PDF):</label>
+            <div class="file-info">{{ comprobante?.name || 'No se ha seleccionado archivo' }}</div>
+            <label class="file-label" for="comprobante">Seleccionar PDF</label>
+            <input type="file" id="comprobante" (change)="onComprobanteSelected($event)" accept="application/pdf" />
+          </div>
+          <div class="buttons">
+            <button type="submit" class="submit" [disabled]="!comprobante">Enviar</button>
+            <button type="button" class="cancel" (click)="cerrarModalComprobante()">Cancelar</button>
+          </div>
+        </form>
+      }
+      @else{
+        @if (tareaSeleccionada) {
+          @if (tareaSeleccionada.comprobantes) {
+            <iframe [src]="getSafeUrl(tareaSeleccionada.comprobantes[0].url_comprobante || '')" width="100%" height="600px"></iframe>
+          }
+        }
+      }
+    </div>
+  </div>
