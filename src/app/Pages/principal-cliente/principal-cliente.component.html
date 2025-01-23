@@ -163,9 +163,11 @@
           placeholder="Escriba un comentario..."
           name="nuevoComentario"
         ></textarea>
-        <button (click)="guardarComentario()">Enviar</button>
+        <button 
+          (click)="guardarComentario()" 
+          [disabled]="!nuevoComentario.trim()"
+        >Enviar</button>
       </div>
-    </div>
   </div>
 
   <!-- Modal de Encuesta -->

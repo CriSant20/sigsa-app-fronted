@@ -15,4 +15,8 @@ export class ComentariosService {
   getComentariosByTarea(id: number):Observable<Comentario[]> {
     return this.http.get<Comentario[]>(`${this.apiUrl}/comentarios/tarea/${id}`);
   }
+
+  createComentario(comentario: Comentario): Observable<Comentario> {
+    return this.http.post<Comentario>(`${this.apiUrl}/comentarios`, comentario);
+  }
 }

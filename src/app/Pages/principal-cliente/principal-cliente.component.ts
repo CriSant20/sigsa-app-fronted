@@ -91,20 +91,17 @@ export class PrincipalCliente {
 
   get filteredTareas() {
     return this.tareasUsuarios.filter((tarea) => {
-      // Search by name
       const matchesSearch = !this.searchQuery || 
         tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
       
-      // State filter
       const matchesState = !this.filterState || tarea.estado === this.filterState;
       
-      // Date filters - handle undefined and null cases
+
       const tareaFechaEnvio = tarea.fecha_envio ? new Date(tarea.fecha_envio) : null;
       const tareaFechaRealizar = tarea.fecha_a_realizar ? new Date(tarea.fecha_a_realizar) : null;
       const fechaInicioDate = this.fechaInicio ? new Date(this.fechaInicio) : null;
       const fechaFinDate = this.fechaFin ? new Date(this.fechaFin) : null;
   
-      // Compare dates only if they exist
       const matchesFechaInicio = !fechaInicioDate || !tareaFechaEnvio || 
         tareaFechaEnvio.getTime() >= fechaInicioDate.getTime();
       
@@ -153,13 +150,12 @@ export class PrincipalCliente {
 
   abrirChat(tarea: Tarea, event: Event) {
     event.stopPropagation();
+    this.tareaSeleccionada = tarea; // Set selected task
     this.comentariosService.getComentariosByTarea(tarea.id!).subscribe((comentarios) => {
-      console.log(comentarios);
       this.comentarios = comentarios;
       this.comentarioVisible = true;
     });
-  }
-
+}
   mostrarInformacion(tarea: any, event: Event) {
     event.stopPropagation();
     this.tareaSeleccionada = tarea;
@@ -175,8 +171,40 @@ export class PrincipalCliente {
   }
 
   guardarComentario() {
-    alert('Comentario guardado.');
-    this.cerrarModalComentario();
+    if (!this.tareaSeleccionada) {
+      console.error('No hay tarea seleccionada');
+      alert('Error: No se pudo identificar la tarea');
+      return;
+    }
+
+    if (!this.nuevoComentario.trim()) {
+      alert('Por favor escriba un comentario');
+      return;
+    }
+
+    const comentario: Comentario = {
+      id_tarea: this.tareaSeleccionada.id!,
+      id_usuario: this.id!,
+      comentario: this.nuevoComentario.trim()
+    };
+
+    this.comentariosService.createComentario(comentario).subscribe({
+      next: (response) => {
+        // Add new comment to list
+        this.comentarios.push(response);
+        // Clear input
+        this.nuevoComentario = '';
+        // Refresh comments
+        this.comentariosService.getComentariosByTarea(this.tareaSeleccionada!.id!)
+          .subscribe(comentarios => {
+            this.comentarios = comentarios;
+          });
+      },
+      error: (error) => {
+        alert('Error al guardar el comentario');
+        console.error('Error:', error);
+      }
+    });
   }
 
   borrarFiltros() {
