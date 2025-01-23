@@ -1,7 +1,8 @@
+/* Estilos principales */
 .sidebar {
   width: 250px;
-  background-color: #6A5ACD; /* Morado medio */
-  color: #fff;
+  background-color: #333; /* Negro */
+  color: #fff; /* Blanco */
   position: fixed;
   height: 100%;
   padding: 5px;
@@ -23,8 +24,15 @@
 }
 
 .sidebar .menu li a {
-  color: #fff;
+  color: #fff; /* Blanco */
   text-decoration: none;
+}
+
+.sidebar .user-info {
+  position: absolute;
+  top: 10px;
+  right: 150px; /* Ajustado para que no esté tan a la derecha */
+  color: #fff; /* Blanco */
 }
 
 .main-content {
@@ -33,8 +41,8 @@
 }
 
 header {
-  background-color: #8B6EFF; /* Morado oscuro */
-  color: #fff;
+  background-color: #333; /* Negro */
+  color: #fff; /* Blanco */
   padding: 10px;
   text-align: center;
   width: calc(100% - 250px);
@@ -42,6 +50,9 @@ header {
   top: 0;
   left: 250px;
   z-index: 1;
+  display: flex;
+  justify-content: space-between; /* Alinea el contenido a los extremos */
+  align-items: center; /* Centra verticalmente */
 }
 
 .filters {
@@ -59,7 +70,7 @@ header {
   margin: 0 10px;
   padding: 10px;
   font-size: 14px;
-  background-color: #9370DB; /* Morado claro */
+  background-color: #007bff; /* Celeste */
   color: white;
   border: none;
   cursor: pointer;
@@ -77,7 +88,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 table {
@@ -85,16 +96,17 @@ table {
   border-collapse: collapse;
 }
 
-table th,
+table th {
+  background-color: #0056b3; /* Azul claro */
+  color: #fff; /* Blanco */
+}
+
 table td {
+  background-color: #ECECEC; /* Plomo */
+  color: #333; /* Negro */
   border: 1px solid #ccc;
   padding: 10px;
   text-align: left;
-}
-
-table th {
-  background-color: #D8BFD8; /* Morado claro */
-  color: white;
 }
 
 .actions {
@@ -112,23 +124,28 @@ table th {
 }
 
 .actions .cancelar {
-  background-color: #8A2BE2; /* Morado intenso */
+  background-color: #007bff; /* Celeste */
   color: white;
 }
 
 .actions .pago {
-  background-color: #7B68EE; /* Morado pastel */
+  background-color: #0056b3; /* Azul claro */
   color: white;
 }
 
 .actions .comentario {
-  background-color: #4B0082; /* Morado oscuro */
+  background-color: #333; /* Negro */
+  color: white;
+}
+
+.actions .informacion {
+  background-color: #28a745; /* Verde */
   color: white;
 }
 
 .survey-button {
   padding: 5px;
-  background-color: #8A2BE2; /* Morado intenso */
+  background-color: #007bff; /* Celeste */
   color: white;
   border: none;
   cursor: pointer;
@@ -137,8 +154,8 @@ table th {
 }
 
 footer {
-  background-color: #6A5ACD; /* Morado medio */
-  color: #fff;
+  background-color: #333; /* Negro */
+  color: #fff; /* Blanco */
   padding: 10px;
   text-align: center;
   position: fixed;
@@ -147,25 +164,91 @@ footer {
   left: 250px;
 }
 
+.perfil-interfaz {
+  margin: 20px;
+  padding: 20px;
+  background-color: #ECECEC; /* Plomo */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 800px; /* Hacer más grande el modal */
+  margin: 20px auto; /* Centrar el modal */
+}
+
+.perfil-interfaz h2 {
+  text-align: center;
+  color: #0056b3; /* Azul claro */
+}
+
+.perfil-interfaz .perfil-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.perfil-interfaz .perfil-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil-interfaz .perfil-item label {
+  flex: 1;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.perfil-interfaz .perfil-item input {
+  flex: 2;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.perfil-interfaz button {
+  align-self: center;
+  padding: 10px 20px;
+  background-color: #007bff; /* Celeste */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.perfil-interfaz button:hover {
+  background-color: #0056b3; /* Azul claro */
+}
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(106, 90, 205, 0.5); /* Fondo morado translúcido */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 300px;
+  background: #ECECEC; /* Plomo */
+  padding: 30px;
+  border-radius: 15px;
+  text-align: left;
+  width: 500px; /* Hacer más grande el modal */
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
+  font-family: Arial, sans-serif;
+}
+
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #0056b3; /* Azul claro */
+  text-align: center; /* Centrar el título */
 }
 
 .modal-content .close {
@@ -175,56 +258,86 @@ footer {
   background: none;
   border: none;
   font-size: 20px;
+  color: #007bff; /* Celeste */
+  cursor: pointer;
 }
 
-.perfil-datos div, .tarea-datos div {
-  margin-bottom: 10px;
-  border-bottom: 1px solid #ccc;
-  padding: 5px 0;
+.modal-content .close:hover {
+  color: #0056b3; /* Azul claro */
 }
 
-.perfil-datos {
-  background-color: #D8BFD8; /* Morado muy claro */
-  padding: 20px;
-  border-radius: 10px;
+.modal-content .perfil-datos {
+  text-align: center; /* Centrar los datos del perfil */
 }
 
-.tarea-datos {
-  background-color: #D8BFD8; /* Morado muy claro */
-  padding: 20px;
-  border-radius: 10px;
-}
-
-
-/* Cuadro emergente */
-
-/* Estilo para el cuadro emergente */
-app-subir-comprobante {
-  position: fixed; /* Fija el cuadro en la pantalla */
-  top: 50%; /* Centrado vertical */
-  left: 50%; /* Centrado horizontal */
-  transform: translate(-50%, -50%); /* Centrado exacto */
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Asegura que esté encima de otros elementos */
-  
-  width: 400px;
-  height: 300px;
+.modal-content img.logo {
   display: block;
+  margin: 0 auto 20px auto; /* Centrar logo */
+  width: 100px;
+  height: auto;
 }
 
-/* Fondo oscuro para la superposición */
-.mostrar {
-  display: block;
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Aumenta el espacio entre los elementos */
 }
 
-.mostrar::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
+.modal-content form input,
+.modal-content form textarea,
+.modal-content form select {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
-  z-index: -1; /* Asegura que el fondo no tape el modal */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.modal-content form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal-content form button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff; /* Celeste */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content form button:hover {
+  background-color: #0056b3; /* Azul claro */
+}
+
+.modal-content form .cancel-button {
+  background-color: #ECECEC; /* Plomo */
+  color: #333; /* Negro */
+}
+
+.modal-content form .cancel-button:hover {
+  background-color: #BFBFBF; /* Plomo oscuro */
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between; /* Separar los botones */
+  gap: 20px;
+}
+
+.perfil .perfil-datos {
+  text-align: center; /* Centrar la información */
+}
+
+header h1, .logo {
+  text-align: center; /* Centrar el título y logo */
+}
+
+.modal-content.agregar-tarea .buttons {
+  display: flex;
+  justify-content: space-between; /* Botones separados */
+  gap: 20px;
 }

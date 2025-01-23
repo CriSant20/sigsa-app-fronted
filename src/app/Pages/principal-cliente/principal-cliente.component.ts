@@ -2,24 +2,27 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SubirComprobanteComponent } from '../../Components/subir-comprobante/subir-comprobante.component';
+
 @Component({
   selector: 'app-principal-cliente',
   templateUrl: './principal-cliente.component.html',
   styleUrls: ['./principal-cliente.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, SubirComprobanteComponent,]
+  imports: [CommonModule, FormsModule]
 })
 export class PrincipalCliente {
-
-  
   perfilVisible = false;
   tareaSeleccionada: any = null;
+  informacionVisible = false;
+  comentarioVisible = false;
   encuestaVisible = false;
+  agregarTareaVisible = false;
+  editando = false;
   searchQuery = '';
   filterState = '';
   startDate: string | null = null;
   endDate: string | null = null;
+  comentarios = '';
   usuario = {
     nombre: 'Juan',
     apellido: 'Pérez',
@@ -27,6 +30,7 @@ export class PrincipalCliente {
     correo: 'juan.perez@example.com',
     institucion: 'Universidad Técnica',
     carrera: 'Ingeniería en Sistemas',
+    foto: 'ruta/a/la/foto.jpg'
   };
   tareas = [
     { nombre: 'Tarea 1', fechaEntrega: '2025-01-25', estado: 'en revision' },
@@ -37,12 +41,15 @@ export class PrincipalCliente {
     resolucion: '',
     comentarios: ''
   };
-  mostrarComprobante: boolean = false;
+  nuevaTarea = {
+    nombre: '',
+    tipo: '',
+    detalle: '',
+    rubrica: '',
+    adjunto: null as File | null
+  };
 
-
-
-
-  constructor(private router: Router, ) {}
+  constructor(private router: Router) {}
 
   get filteredTareas() {
     return this.tareas.filter((tarea) => {
@@ -55,30 +62,59 @@ export class PrincipalCliente {
     });
   }
 
-  showPerfil() {
-    this.perfilVisible = true;
-  }
-
-  closePerfil() {
+  mostrarSolicitudes() {
     this.perfilVisible = false;
   }
 
-  cancelarPago(tarea: any, event: Event) {
+  mostrarPerfil() {
+    this.perfilVisible = true;
+  }
+
+  cerrarPerfil() {
+    this.perfilVisible = false;
+  }
+
+  editarPerfil() {
+    this.editando = true;
+  }
+
+  guardarPerfil() {
+    alert('Perfil guardado con éxito.');
+    this.editando = false;
+  }
+
+  cancelarTarea(tarea: any, event: Event) {
     event.stopPropagation();
-    alert(`Pago cancelado para ${tarea.nombre}`);
+    alert(`Tarea cancelada para ${tarea.nombre}`);
   }
-  cerrarComprobante(): void {
-    this.mostrarComprobante = false;
-  }
+
   pagar(tarea: any, event: Event) {
-    this.mostrarComprobante = true;
     event.stopPropagation();
     alert(`Pago realizado para ${tarea.nombre}`);
   }
 
   abrirChat(tarea: any, event: Event) {
     event.stopPropagation();
-    alert(`Chat abierto para ${tarea.nombre}`);
+    this.comentarioVisible = true;
+  }
+
+  mostrarInformacion(tarea: any, event: Event) {
+    event.stopPropagation();
+    this.tareaSeleccionada = tarea;
+    this.informacionVisible = true;
+  }
+
+  cerrarModalInformacion() {
+    this.informacionVisible = false;
+  }
+
+  cerrarModalComentario() {
+    this.comentarioVisible = false;
+  }
+
+  guardarComentario() {
+    alert('Comentario guardado.');
+    this.cerrarModalComentario();
   }
 
   borrarFiltros() {
@@ -113,8 +149,24 @@ export class PrincipalCliente {
     window.location.href = 'http://localhost:4200/login';
   }
 
-  agregarTarea() {
-    alert('Funcionalidad para agregar tarea aún no implementada.');
+  abrirModalAgregarTarea() {
+    this.agregarTareaVisible = true;
+  }
+
+  cerrarModalAgregarTarea() {
+    this.agregarTareaVisible = false;
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.nuevaTarea.adjunto = file;
+    }
+  }
+
+  guardarTarea() {
+    alert('Tarea guardada con éxito.');
+    this.cerrarModalAgregarTarea();
   }
 
   formatFecha(fecha: string): string {
