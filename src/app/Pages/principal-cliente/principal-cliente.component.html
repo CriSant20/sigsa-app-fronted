@@ -56,7 +56,7 @@
               <div class="actions">
                 <button *ngIf="tarea.estado === 'en revision'" class="cancelar"
                   (click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
-                <button *ngIf="tarea.estado === 'aprobado'" class="pago" (click)="pagar(tarea, $event)">Pago</button>
+                <button class="pago" (click)="pagar(tarea, $event)">Pago</button>
                 <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
                 <button class="informacion" (click)="mostrarInformacion(tarea, $event)">Información</button>
               </div>
@@ -125,9 +125,15 @@
       <button class="close" (click)="cerrarModalInformacion()">X</button>
       <h2>Información de la Tarea</h2>
       <div class="tarea-datos">
-        <div><strong>Nombre:</strong> {{ tareaSeleccionada.nombre }}</div>
-        <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada.fechaEntrega}}</div>
-        <div><strong>Estado:</strong> {{ tareaSeleccionada.estado }}</div>
+        <div><strong>Nombre:</strong> {{ tareaSeleccionada!.nombre }}</div>
+        <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada!.fecha_envio | date:'yyyy-MM-dd' }}</div>
+        <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada!.fecha_a_realizar}}</div>
+        <div><strong>Fecha Realizada:</strong> {{ tareaSeleccionada!.fecha_realizada || 'Aun no se ha realizado'}}</div>
+        
+        <div><strong>Estado:</strong> {{ tareaSeleccionada!.estado }}</div>
+        <div><strong>Rubrica de la tarea:</strong> {{ tareaSeleccionada!.rubrica }}</div>
+        <div><strong>Indicaciones de la tarea:</strong> {{ tareaSeleccionada!.indicaciones }}</div>
+        <iframe [src]="getSafeUrl(tareaSeleccionada?.adjunto_url || '')" width="100%" height="600px"></iframe>
       </div>
     </div>
   </div>

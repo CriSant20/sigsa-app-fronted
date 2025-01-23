@@ -6,6 +6,7 @@ import { AuthService } from '../../Core/Services/auth.service';
 import { UserProfile } from '../../Core/Interfaces/user-profile';
 import { Tarea } from '../../Core/Interfaces/tarea.interface';
 import { TareasService } from '../../Core/Services/tareas.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-principal-cliente',
@@ -23,7 +24,8 @@ export class PrincipalCliente {
 
   id: number | undefined = undefined;
   perfilVisible = false;
-  tareaSeleccionada: any = null;
+  tareaSeleccionada: Tarea | null = null;
+
   informacionVisible = false;
   comentarioVisible = false;
   encuestaVisible = false;
@@ -52,7 +54,7 @@ export class PrincipalCliente {
 
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private sanitizer: DomSanitizer) {
     this.id = this.authService.getUserProfile()!.usuario_id;
 
     this.nuevaTarea = {
@@ -70,6 +72,9 @@ export class PrincipalCliente {
     });
   }
 
+  getSafeUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
   ngOnInit() {
     this.getTareas();
   }
