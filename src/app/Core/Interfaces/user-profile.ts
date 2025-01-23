@@ -1,5 +1,5 @@
 export interface UserProfile {
-    usuario_id: number,
+    usuario_id?: number,
     nombre_usuario?: string,
     nombre?:string,
     apellido?: string,

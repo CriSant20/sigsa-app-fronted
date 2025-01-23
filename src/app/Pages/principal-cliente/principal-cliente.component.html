@@ -10,12 +10,12 @@
 <div class="main-content">
   <header>
     <h1>Gestión Cliente</h1>
-    <div class="user-info">
-      {{ usuario.nombre }} {{ usuario.apellido }}
-    </div>
+    <p class="user-info">
+      {{ usuario?.nombre_usuario || "Usuario anónimo" }}
+    </p>
   </header>
 
-  <section *ngIf="!perfilVisible">
+  <section *ngIf="!perfilVisible" class="filter-section">
     <div class="filters">
       <button (click)="abrirModalAgregarTarea()">Agregar Tarea</button>
       <input type="text" placeholder="Buscar tarea..." [(ngModel)]="searchQuery" />
@@ -25,8 +25,8 @@
         <option value="aprobado">Aprobado</option>
         <option value="cancelado">Cancelado</option>
       </select>
-      <input type="date" [(ngModel)]="startDate" />
-      <input type="date" [(ngModel)]="endDate" />
+      <input type="date" [(ngModel)]="fechaInicio" />
+      <input type="date" [(ngModel)]="fechaFin" />
       <button (click)="borrarFiltros()">Borrar Filtros</button>
     </div>
     <div class="table-container">
@@ -65,36 +65,37 @@
   <section *ngIf="perfilVisible" class="perfil-interfaz">
     <button class="close" (click)="cerrarPerfil()">X</button>
     <h2>Perfil</h2>
-    <img [src]="usuario.foto" alt="Foto de Perfil" class="logo" />
+    <div class="contenedor-foto">
+      <img [src]="foto" alt="Foto de Perfil" class="usuario-foto" />
+    </div>
     <div class="perfil-datos">
       <div class="perfil-item">
         <label><strong>Nombre:</strong></label>
-        <input [(ngModel)]="usuario.nombre" [readonly]="!editando" />
+        <input [(ngModel)]="usuario!.nombre" />
       </div>
       <div class="perfil-item">
         <label><strong>Apellido:</strong></label>
-        <input [(ngModel)]="usuario.apellido" [readonly]="!editando" />
+        <input [(ngModel)]="usuario!.apellido" />
       </div>
       <div class="perfil-item">
         <label><strong>Celular:</strong></label>
-        <input [(ngModel)]="usuario.celular" [readonly]="!editando" />
+        <input [(ngModel)]="usuario!.numero"  readonly/>
       </div>
       <div class="perfil-item">
         <label><strong>Correo:</strong></label>
-        <input [(ngModel)]="usuario.correo" [readonly]="!editando" />
+        <input [(ngModel)]="usuario!.correo" />
       </div>
       <div class="perfil-item">
         <label><strong>Institución:</strong></label>
-        <input [(ngModel)]="usuario.institucion" [readonly]="!editando" />
+        <input [(ngModel)]="usuario!.institucion" readonly />
       </div>
       <div class="perfil-item">
         <label><strong>Carrera:</strong></label>
-        <input [(ngModel)]="usuario.carrera" [readonly]="!editando" />
+        <input [(ngModel)]="usuario!.carrera" />
       </div>
     </div>
     <div class="buttons">
-      <button *ngIf="!editando" (click)="editarPerfil()">Editar</button>
-      <button *ngIf="editando" (click)="guardarPerfil()">Guardar</button>
+      <button *ngIf="!editando" (click)="editarPerfil()">Guardar</button>
     </div>
   </section>
 

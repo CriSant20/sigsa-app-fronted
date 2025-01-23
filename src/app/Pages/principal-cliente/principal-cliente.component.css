@@ -28,11 +28,12 @@
   text-decoration: none;
 }
 
-.sidebar .user-info {
-  position: absolute;
-  top: 10px;
-  right: 150px; /* Ajustado para que no esté tan a la derecha */
-  color: #fff; /* Blanco */
+.user-info {
+  margin-right: 40px;
+}
+
+.filter-section {
+  margin-top: 9rem;
 }
 
 .main-content {
@@ -340,4 +341,17 @@ header h1, .logo {
   display: flex;
   justify-content: space-between; /* Botones separados */
   gap: 20px;
+}
+
+.contenedor-foto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.usuario-foto {
+  width: 100px;
+  height: auto;
+  border-radius: 50%;
+  margin:  1rem auto;
 }

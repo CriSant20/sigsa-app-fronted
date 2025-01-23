@@ -6,7 +6,7 @@ import { NavbarComponent } from '../../Components/navbar/navbar.component';
 import { CardsComponent } from '../../Components/cards/cards.component';
 @Component({
   selector: 'app-pantalla-gestion-administrador',
-  imports: [FooterComponent, HeaderComponent, MenuComponent, NavbarComponent, CardsComponent],
+  imports: [FooterComponent, MenuComponent, NavbarComponent, CardsComponent],
   templateUrl: './pantalla-gestion-administrador.component.html',
   styleUrls: ['./pantalla-gestion-administrador.component.css'],
   standalone:true,

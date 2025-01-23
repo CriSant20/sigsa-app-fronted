@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 //import { environment } from '../../../environments/environemnts.dev';
-import { map, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 //kevin
 import { BehaviorSubject } from 'rxjs';
@@ -90,10 +90,16 @@ export class AuthService {
     localStorage.setItem('user_profile', JSON.stringify(profile));
   }
 
-  private getUserProfile(): UserProfile | null {
+   getUserProfile(): UserProfile | null {
     const profileStr = localStorage.getItem('user_profile');
     return profileStr ? JSON.parse(profileStr) : null;
   }
 
+  getUser(id: number): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/usuario/${id}`);
+  }
 
+  updateProfile(profile: UserProfile, usuario_id:number): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.apiUrl}/usuario/${usuario_id}`, profile);
+  }
 }

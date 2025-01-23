@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Core/Services/auth.service';
+import { UserProfile } from '../../Core/Interfaces/user-profile';
 
 @Component({
   selector: 'app-principal-cliente',
@@ -11,6 +13,9 @@ import { Router } from '@angular/router';
   imports: [CommonModule, FormsModule]
 })
 export class PrincipalCliente {
+
+  authService = inject(AuthService);
+
   perfilVisible = false;
   tareaSeleccionada: any = null;
   informacionVisible = false;
@@ -20,22 +25,19 @@ export class PrincipalCliente {
   editando = false;
   searchQuery = '';
   filterState = '';
-  startDate: string | null = null;
-  endDate: string | null = null;
+  fechaInicio: string | null = null;
+  fechaFin: string | null = null;
   comentarios = '';
-  usuario = {
-    nombre: 'Juan',
-    apellido: 'Pérez',
-    celular: '0987654321',
-    correo: 'juan.perez@example.com',
-    institucion: 'Universidad Técnica',
-    carrera: 'Ingeniería en Sistemas',
-    foto: 'ruta/a/la/foto.jpg'
-  };
+
+  usuario?: UserProfile;
+
+  foto = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL0kG6yP7wgQSOk_hswRbbB1Cs3LpAWtLIBg&s'
+
   tareas = [
     { nombre: 'Tarea 1', fechaEntrega: '2025-01-25', estado: 'en revision' },
     { nombre: 'Tarea 2', fechaEntrega: '2025-01-30', estado: 'aprobado' },
   ];
+
   encuesta = {
     atencion: '',
     resolucion: '',
@@ -49,16 +51,21 @@ export class PrincipalCliente {
     adjunto: null as File | null
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    const id = this.authService.getUserProfile()!.usuario_id;
+    this.authService.getUser(id!).subscribe((user) => {
+      this.usuario = user;
+    });
+  }
 
   get filteredTareas() {
     return this.tareas.filter((tarea) => {
       const matchesQuery =
         !this.searchQuery || tarea.nombre.includes(this.searchQuery);
       const matchesState = !this.filterState || tarea.estado === this.filterState;
-      const matchesStartDate = !this.startDate || new Date(tarea.fechaEntrega) >= new Date(this.startDate);
-      const matchesEndDate = !this.endDate || new Date(tarea.fechaEntrega) <= new Date(this.endDate);
-      return matchesQuery && matchesState && matchesStartDate && matchesEndDate;
+      const matchesFechaInicio = !this.fechaInicio || new Date(tarea.fechaEntrega) >= new Date(this.fechaInicio);
+      const matchesfechaFin = !this.fechaFin || new Date(tarea.fechaEntrega) <= new Date(this.fechaFin);
+      return matchesQuery && matchesState && matchesFechaInicio && matchesfechaFin;
     });
   }
 
@@ -75,13 +82,18 @@ export class PrincipalCliente {
   }
 
   editarPerfil() {
-    this.editando = true;
+   console.log(this.usuario);
+   if(!this.usuario){
+     alert("Usuario no encontrado");
+     return;
+   }
+   const {usuario_id, ...profile} = this.usuario;
+   this.authService.updateProfile(profile, usuario_id!).subscribe((profile) => {
+     alert("Perfil guardado con éxito.");
+     this.editando = false;
+   });
   }
 
-  guardarPerfil() {
-    alert('Perfil guardado con éxito.');
-    this.editando = false;
-  }
 
   cancelarTarea(tarea: any, event: Event) {
     event.stopPropagation();
@@ -120,8 +132,8 @@ export class PrincipalCliente {
   borrarFiltros() {
     this.searchQuery = '';
     this.filterState = '';
-    this.startDate = null;
-    this.endDate = null;
+    this.fechaInicio = null;
+    this.fechaFin = null;
   }
 
   abrirEncuesta() {
