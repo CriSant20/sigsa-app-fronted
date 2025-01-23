@@ -1,3 +1,5 @@
+import { UserProfile } from "./user-profile";
+
 export interface Tarea {
     id?:                  number;
     usuario_cliente_id:  number;
@@ -23,6 +25,7 @@ export interface Comentario {
     id_usuario:       number;
     comentario:       string;
     fecha_comentario?: Date;
+    usuario?:          UserProfile;
 }
 
 export interface Encuesta {
