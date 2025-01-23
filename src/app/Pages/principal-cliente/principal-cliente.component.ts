@@ -45,8 +45,9 @@ export class PrincipalCliente {
 
   encuesta = {
     atencion: '',
-    resolucion: '',
-    comentarios: ''
+    calidad: '',
+    costo: '',
+    nota: ''
   };
 
 

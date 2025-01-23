@@ -40,6 +40,7 @@
             <th>Fecha Envio</th>
             <th>Fecha de Entrega</th>
             <th>Estado</th>
+            <th>Costo</th>
             <th>Acciones</th>
             <th>Encuesta</th>
           </tr>
@@ -50,6 +51,7 @@
             <td>{{ tarea.fecha_envio | date:'yyyy-MM-dd' }}</td>
             <td>{{ tarea.fecha_a_realizar}}</td>
             <td>{{ tarea.estado }}</td>
+            <td>{{ tarea.costo || '-' }}</td>
             <td>
               <div class="actions">
                 <button *ngIf="tarea.estado === 'en revision'" class="cancelar"
@@ -141,24 +143,38 @@
         <div>
           <label>¿Cómo calificaría la atención recibida?</label>
           <select [(ngModel)]="encuesta.atencion" name="atencion">
-            <option value="excelente">Excelente</option>
-            <option value="buena">Buena</option>
-            <option value="regular">Regular</option>
-            <option value="mala">Mala</option>
+            <option value="Buena">Buena</option>
+            <option value="Normal">Regular</option>
+            <option value="Mala">Mala</option>
           </select>
         </div>
         <div>
-          <label>¿Cómo calificaría la resolución de su tarea?</label>
-          <select [(ngModel)]="encuesta.resolucion" name="resolucion">
-            <option value="excelente">Excelente</option>
-            <option value="buena">Buena</option>
-            <option value="regular">Regular</option>
-            <option value="mala">Mala</option>
+          <label>¿Cómo calificaría la calidad de su tarea?</label>
+          <select [(ngModel)]="encuesta.calidad" name="resolucion">
+            <option value="Excelente">Excelente</option>
+            <option value="Normal">Regular</option>
+            <option value="Mala">Mala</option>
           </select>
         </div>
         <div>
-          <label>Comentarios adicionales:</label>
-          <textarea [(ngModel)]="encuesta.comentarios" name="comentarios"></textarea>
+          <label>¿Cómo calificaría el costo de su tarea?</label>
+          <select [(ngModel)]="encuesta.costo" name="resolucion">
+            <option value="Caro">Caro</option>
+            <option value="Normal">Normal</option>
+            <option value="Barato">Barato</option>
+          </select>
+        </div>
+        <div>
+          <label>¿Qué nota obtuviste en la tarea?</label>
+          <input 
+            type="number" 
+            [(ngModel)]="encuesta.nota" 
+            name="nota"
+            min="0"
+            max="10"
+            required
+            placeholder="Ingrese nota (0-10)"
+          />
         </div>
         <button type="submit">Enviar</button>
       </form>
