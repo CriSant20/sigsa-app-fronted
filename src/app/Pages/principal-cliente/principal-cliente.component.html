@@ -21,9 +21,12 @@
       <input type="text" placeholder="Buscar tarea..." [(ngModel)]="searchQuery" />
       <select [(ngModel)]="filterState">
         <option value="">Todos los estados</option>
-        <option value="en revision">En Revisión</option>
-        <option value="aprobado">Aprobado</option>
-        <option value="cancelado">Cancelado</option>
+        <option value="En Revisión">En Revisión</option>
+        <option value="Aprobada">Aprobada</option>
+        <option value="En Progreso">En Progreso</option>
+        <option value="Finalizado">Finalizado</option>
+        <option value="Rechazada">Rechazada</option>
+        <option value="Cancelada">Cancelada</option>
       </select>
       <input type="date" [(ngModel)]="fechaInicio" />
       <input type="date" [(ngModel)]="fechaFin" />
@@ -185,7 +188,7 @@
         </div>
         <div>
           <label>Indicaciones/Detalle:</label>
-          <textarea [(ngModel)]="nuevaTarea.detalle" name="detalle" required></textarea>
+          <textarea [(ngModel)]="nuevaTarea.indicaciones" name="detalle" required></textarea>
         </div>
         <div>
           <label>Rúbrica:</label>

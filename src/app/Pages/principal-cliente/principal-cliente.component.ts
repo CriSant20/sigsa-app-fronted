@@ -7,6 +7,15 @@ import { UserProfile } from '../../Core/Interfaces/user-profile';
 import { Tarea } from '../../Core/Interfaces/tarea.interface';
 import { TareasService } from '../../Core/Services/tareas.service';
 
+export enum TaskState {
+  EN_REVISION = "En Revisión",
+  APROBADA = "Aprobada",
+  EN_PROGRESO = "En Progreso",
+  FINALIZADO = "Finalizado",
+  RECHAZADA = "Rechazada",
+  CANCELADA = "Cancelada"
+}
+
 @Component({
   selector: 'app-principal-cliente',
   templateUrl: './principal-cliente.component.html',
@@ -15,6 +24,8 @@ import { TareasService } from '../../Core/Services/tareas.service';
   imports: [CommonModule, FormsModule]
 })
 export class PrincipalCliente {
+
+
 
   authService = inject(AuthService);
   tareasService = inject(TareasService);
@@ -38,7 +49,7 @@ export class PrincipalCliente {
   foto = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL0kG6yP7wgQSOk_hswRbbB1Cs3LpAWtLIBg&s'
 
 
-  tareasUsuarios: Tarea[]  = []
+  tareasUsuarios: Tarea[] = []
 
   encuesta = {
     atencion: '',
@@ -47,14 +58,16 @@ export class PrincipalCliente {
   };
   nuevaTarea = {
     nombre: '',
-    tipo: '',
-    detalle: '',
+    indicaciones: '',
+    usuario_cliente_id: this.id,
     rubrica: '',
+    fecha_a_realizar: '',
+    tipo: '',
     adjunto: null as File | null
   };
 
   constructor(private router: Router) {
-   this.id = this.authService.getUserProfile()!.usuario_id;
+    this.id = this.authService.getUserProfile()!.usuario_id;
     this.authService.getUser(this.id!).subscribe((user) => {
       this.usuario = user;
     });
@@ -70,7 +83,7 @@ export class PrincipalCliente {
   get filteredTareas() {
     return this.tareasUsuarios.filter((tarea) => {
       const matchesQuery =
-        !this.searchQuery || tarea.nombre.includes(this.searchQuery);
+        !this.searchQuery || tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
       const matchesState = !this.filterState || tarea.estado === this.filterState;
       const matchesFechaInicio = !this.fechaInicio || new Date(tarea.fecha_envio) >= new Date(this.fechaInicio);
       const matchesfechaFin = !this.fechaFin || new Date(tarea.fecha_a_realizar) <= new Date(this.fechaFin);
@@ -91,16 +104,16 @@ export class PrincipalCliente {
   }
 
   editarPerfil() {
-   console.log(this.usuario);
-   if(!this.usuario){
-     alert("Usuario no encontrado");
-     return;
-   }
-   const {usuario_id, ...profile} = this.usuario;
-   this.authService.updateProfile(profile, usuario_id!).subscribe((profile) => {
-     alert("Perfil guardado con éxito.");
-     this.editando = false;
-   });
+    console.log(this.usuario);
+    if (!this.usuario) {
+      alert("Usuario no encontrado");
+      return;
+    }
+    const { usuario_id, ...profile } = this.usuario;
+    this.authService.updateProfile(profile, usuario_id!).subscribe((profile) => {
+      alert("Perfil guardado con éxito.");
+      this.editando = false;
+    });
   }
 
 
@@ -141,8 +154,8 @@ export class PrincipalCliente {
   borrarFiltros() {
     this.searchQuery = '';
     this.filterState = '';
-    this.fechaInicio = null;
-    this.fechaFin = null;
+    this.fechaInicio = '';
+    this.fechaFin = '';
   }
 
   abrirEncuesta() {

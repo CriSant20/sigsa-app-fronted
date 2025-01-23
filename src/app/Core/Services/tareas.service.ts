@@ -14,4 +14,8 @@ export class TareasService {
   getTareasByUser(id: number):Observable<Tarea[]> {
     return this.http.get<Tarea[]>(`${this.apiUrl}/tareas/usuario/${id}`);
   }
+
+  createTarea(tarea: Tarea):Observable<Tarea> {
+    return this.http.post<Tarea>(`${this.apiUrl}/tareas`, tarea);
+  }
 }
