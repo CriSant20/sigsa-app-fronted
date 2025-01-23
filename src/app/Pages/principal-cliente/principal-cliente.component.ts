@@ -98,26 +98,31 @@ export class PrincipalCliente {
   }
 
   get filteredTareas() {
-    return this.tareasUsuarios.filter((tarea) => {
-      const matchesSearch = !this.searchQuery ||
-        tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
+    return this.tareasUsuarios
+      .filter((tarea) => {
+        const matchesSearch = !this.searchQuery ||
+          tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
 
-      const matchesState = !this.filterState || tarea.estado === this.filterState;
+        const matchesState = !this.filterState || tarea.estado === this.filterState;
 
+        const tareaFechaEnvio = tarea.fecha_envio ? new Date(tarea.fecha_envio) : null;
+        const tareaFechaRealizar = tarea.fecha_a_realizar ? new Date(tarea.fecha_a_realizar) : null;
+        const fechaInicioDate = this.fechaInicio ? new Date(this.fechaInicio) : null;
+        const fechaFinDate = this.fechaFin ? new Date(this.fechaFin) : null;
 
-      const tareaFechaEnvio = tarea.fecha_envio ? new Date(tarea.fecha_envio) : null;
-      const tareaFechaRealizar = tarea.fecha_a_realizar ? new Date(tarea.fecha_a_realizar) : null;
-      const fechaInicioDate = this.fechaInicio ? new Date(this.fechaInicio) : null;
-      const fechaFinDate = this.fechaFin ? new Date(this.fechaFin) : null;
+        const matchesFechaInicio = !fechaInicioDate || !tareaFechaEnvio ||
+          tareaFechaEnvio.getTime() >= fechaInicioDate.getTime();
 
-      const matchesFechaInicio = !fechaInicioDate || !tareaFechaEnvio ||
-        tareaFechaEnvio.getTime() >= fechaInicioDate.getTime();
+        const matchesFechaFin = !fechaFinDate || !tareaFechaRealizar ||
+          tareaFechaRealizar.getTime() <= fechaFinDate.getTime();
 
-      const matchesFechaFin = !fechaFinDate || !tareaFechaRealizar ||
-        tareaFechaRealizar.getTime() <= fechaFinDate.getTime();
-
-      return matchesSearch && matchesState && matchesFechaInicio && matchesFechaFin;
-    });
+        return matchesSearch && matchesState && matchesFechaInicio && matchesFechaFin;
+      })
+      .sort((a, b) => {
+        if (a.estado === 'Rechazada' && b.estado !== 'Rechazada') return 1;
+        if (a.estado !== 'Rechazada' && b.estado === 'Rechazada') return -1;
+        return 0;
+      });
   }
 
   mostrarSolicitudes() {

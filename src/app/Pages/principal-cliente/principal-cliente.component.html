@@ -36,6 +36,7 @@
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Tarea</th>
             <th>Fecha Envio</th>
             <th>Fecha de Entrega</th>
@@ -47,6 +48,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let tarea of filteredTareas">
+            <td>{{ tarea.id }}</td>
             <td>{{ tarea.nombre }}</td>
             <td>{{ tarea.fecha_envio | date:'yyyy-MM-dd' }}</td>
             <td>{{ tarea.fecha_a_realizar}}</td>
@@ -276,6 +278,8 @@
         @if (tareaSeleccionada) {
           @if (tareaSeleccionada.comprobantes) {
             <iframe [src]="getSafeUrl(tareaSeleccionada.comprobantes[0].url_comprobante || '')" width="100%" height="600px"></iframe>
+            <p><strong>Comprobante ID: </strong> {{
+              tareaSeleccionada.comprobantes[0].id_comprobante || 'Sin comentarios' }}</p>
             <p><strong>Comprobante subido el: </strong> {{ tareaSeleccionada.comprobantes[0].fecha_creacion| date:'dd/MM/yyyy HH:mm' }}</p>
             <p><strong>Comentarios: </strong> {{
               tareaSeleccionada.comprobantes[0].comentario || 'Sin comentarios' }}</p>
