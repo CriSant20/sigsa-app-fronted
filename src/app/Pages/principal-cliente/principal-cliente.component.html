@@ -176,6 +176,10 @@
           <input type="text" [(ngModel)]="nuevaTarea.nombre" name="nombre" required />
         </div>
         <div>
+          <label>Indicaciones/Detalle:</label>
+          <textarea [(ngModel)]="nuevaTarea.indicaciones" name="detalle" required></textarea>
+        </div>
+        <div>
           <label>Tipo:</label>
           <select [(ngModel)]="nuevaTarea.tipo" name="tipo" required>
             <option value="tarea">Tarea</option>
@@ -187,12 +191,19 @@
           </select>
         </div>
         <div>
-          <label>Indicaciones/Detalle:</label>
-          <textarea [(ngModel)]="nuevaTarea.indicaciones" name="detalle" required></textarea>
-        </div>
-        <div>
           <label>Rúbrica:</label>
           <textarea [(ngModel)]="nuevaTarea.rubrica" name="rubrica" required></textarea>
+        </div>
+        <div>
+          <label>Fecha a realizar:</label>
+          <input 
+            type="date" 
+            [(ngModel)]="nuevaTarea.fecha_a_realizar" 
+            name="fecha_a_realizar" 
+            required
+            min="2024-01-01"
+            max="2030-12-31"
+          />
         </div>
         <div>
           <label>Adjunto:</label>
@@ -201,4 +212,6 @@
           <input type="file" id="adjunto" (change)="onFileSelected($event)" />
         </div>
         <div class="buttons">
+          <button type="submit" class="submit">Enviar</button>
           <button type="button" class="cancel" (click)="cerrarModalAgregarTarea()">Cancelar</button>
+        </div>

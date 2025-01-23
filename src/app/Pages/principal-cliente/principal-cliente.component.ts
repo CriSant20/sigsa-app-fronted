@@ -195,6 +195,7 @@ export class PrincipalCliente {
   }
 
   guardarTarea() {
+    console.log(this.nuevaTarea);
     alert('Tarea guardada con éxito.');
     this.cerrarModalAgregarTarea();
   }
