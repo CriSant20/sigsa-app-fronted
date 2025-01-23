@@ -34,7 +34,8 @@
         <thead>
           <tr>
             <th>Tarea</th>
-            <th>Fecha Entrega</th>
+            <th>Fecha Envio</th>
+            <th>Fecha de Entrega</th>
             <th>Estado</th>
             <th>Acciones</th>
             <th>Encuesta</th>
@@ -43,11 +44,13 @@
         <tbody>
           <tr *ngFor="let tarea of filteredTareas">
             <td>{{ tarea.nombre }}</td>
-            <td>{{ formatFecha(tarea.fechaEntrega) }}</td>
+            <td>{{ tarea.fecha_envio | date:'dd-MM-yyyy' }}</td>
+            <td>{{ tarea.fecha_a_realizar}}</td>
             <td>{{ tarea.estado }}</td>
             <td>
               <div class="actions">
-                <button *ngIf="tarea.estado === 'en revision'" class="cancelar" (click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
+                <button *ngIf="tarea.estado === 'en revision'" class="cancelar"
+                  (click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
                 <button *ngIf="tarea.estado === 'aprobado'" class="pago" (click)="pagar(tarea, $event)">Pago</button>
                 <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
                 <button class="informacion" (click)="mostrarInformacion(tarea, $event)">Información</button>
@@ -79,7 +82,7 @@
       </div>
       <div class="perfil-item">
         <label><strong>Celular:</strong></label>
-        <input [(ngModel)]="usuario!.numero"  readonly/>
+        <input [(ngModel)]="usuario!.numero" readonly />
       </div>
       <div class="perfil-item">
         <label><strong>Correo:</strong></label>
@@ -110,7 +113,7 @@
       <h2>Información de la Tarea</h2>
       <div class="tarea-datos">
         <div><strong>Nombre:</strong> {{ tareaSeleccionada.nombre }}</div>
-        <div><strong>Fecha Entrega:</strong> {{ formatFecha(tareaSeleccionada.fechaEntrega) }}</div>
+        <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada.fechaEntrega}}</div>
         <div><strong>Estado:</strong> {{ tareaSeleccionada.estado }}</div>
       </div>
     </div>

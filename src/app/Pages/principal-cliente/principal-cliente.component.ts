@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Core/Services/auth.service';
 import { UserProfile } from '../../Core/Interfaces/user-profile';
+import { Tarea } from '../../Core/Interfaces/tarea.interface';
+import { TareasService } from '../../Core/Services/tareas.service';
 
 @Component({
   selector: 'app-principal-cliente',
@@ -15,7 +17,9 @@ import { UserProfile } from '../../Core/Interfaces/user-profile';
 export class PrincipalCliente {
 
   authService = inject(AuthService);
+  tareasService = inject(TareasService);
 
+  id: number | undefined = undefined;
   perfilVisible = false;
   tareaSeleccionada: any = null;
   informacionVisible = false;
@@ -33,10 +37,8 @@ export class PrincipalCliente {
 
   foto = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL0kG6yP7wgQSOk_hswRbbB1Cs3LpAWtLIBg&s'
 
-  tareas = [
-    { nombre: 'Tarea 1', fechaEntrega: '2025-01-25', estado: 'en revision' },
-    { nombre: 'Tarea 2', fechaEntrega: '2025-01-30', estado: 'aprobado' },
-  ];
+
+  tareasUsuarios: Tarea[]  = []
 
   encuesta = {
     atencion: '',
@@ -52,19 +54,26 @@ export class PrincipalCliente {
   };
 
   constructor(private router: Router) {
-    const id = this.authService.getUserProfile()!.usuario_id;
-    this.authService.getUser(id!).subscribe((user) => {
+   this.id = this.authService.getUserProfile()!.usuario_id;
+    this.authService.getUser(this.id!).subscribe((user) => {
       this.usuario = user;
     });
   }
 
+  ngOnInit() {
+    this.tareasService.getTareasByUser(this.id!).subscribe((tareas) => {
+      console.log(tareas);
+      this.tareasUsuarios = tareas;
+    });
+  }
+
   get filteredTareas() {
-    return this.tareas.filter((tarea) => {
+    return this.tareasUsuarios.filter((tarea) => {
       const matchesQuery =
         !this.searchQuery || tarea.nombre.includes(this.searchQuery);
       const matchesState = !this.filterState || tarea.estado === this.filterState;
-      const matchesFechaInicio = !this.fechaInicio || new Date(tarea.fechaEntrega) >= new Date(this.fechaInicio);
-      const matchesfechaFin = !this.fechaFin || new Date(tarea.fechaEntrega) <= new Date(this.fechaFin);
+      const matchesFechaInicio = !this.fechaInicio || new Date(tarea.fecha_envio) >= new Date(this.fechaInicio);
+      const matchesfechaFin = !this.fechaFin || new Date(tarea.fecha_a_realizar) <= new Date(this.fechaFin);
       return matchesQuery && matchesState && matchesFechaInicio && matchesfechaFin;
     });
   }
@@ -181,11 +190,4 @@ export class PrincipalCliente {
     this.cerrarModalAgregarTarea();
   }
 
-  formatFecha(fecha: string): string {
-    const date = new Date(fecha);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
 }
