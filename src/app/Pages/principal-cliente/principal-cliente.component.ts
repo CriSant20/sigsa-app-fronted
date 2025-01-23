@@ -86,16 +86,26 @@ export class PrincipalCliente {
       const matchesSearch = !this.searchQuery || 
         tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
       
-      // Existing filters
+      // State filter
       const matchesState = !this.filterState || tarea.estado === this.filterState;
-      const matchesFechaInicio = !this.fechaInicio || 
-        tarea.fecha_envio! >= new Date(this.fechaInicio);
-      const matchesFechaFin = !this.fechaFin || 
-        new Date(tarea.fecha_a_realizar) <= new Date(this.fechaFin);
-
+      
+      // Date filters - handle undefined and null cases
+      const tareaFechaEnvio = tarea.fecha_envio ? new Date(tarea.fecha_envio) : null;
+      const tareaFechaRealizar = tarea.fecha_a_realizar ? new Date(tarea.fecha_a_realizar) : null;
+      const fechaInicioDate = this.fechaInicio ? new Date(this.fechaInicio) : null;
+      const fechaFinDate = this.fechaFin ? new Date(this.fechaFin) : null;
+  
+      // Compare dates only if they exist
+      const matchesFechaInicio = !fechaInicioDate || !tareaFechaEnvio || 
+        tareaFechaEnvio.getTime() >= fechaInicioDate.getTime();
+      
+      const matchesFechaFin = !fechaFinDate || !tareaFechaRealizar || 
+        tareaFechaRealizar.getTime() <= fechaFinDate.getTime();
+  
       return matchesSearch && matchesState && matchesFechaInicio && matchesFechaFin;
     });
   }
+
   mostrarSolicitudes() {
     this.perfilVisible = false;
   }
@@ -185,7 +195,7 @@ export class PrincipalCliente {
   }
 
   cerrarSesion() {
-    window.location.href = 'http://localhost:4200/login';
+    this.authService.logOut();
   }
 
   abrirModalAgregarTarea() {
