@@ -17,6 +17,6 @@ export class ComprobantesService {
   }
 
   enviarComprobante(formData: FormData): Observable<Comprobante> {
-    return this.http.post<Comprobante>(`${this.apiUrl}/comprobantes`, formData);
+    return this.http.post<Comprobante>(`${this.apiUrl}/comprobante`, formData);
   }
 }

@@ -346,7 +346,7 @@ export class PrincipalCliente {
 
     const formData = new FormData();
     formData.append('comprobante', this.comprobante);
-    formData.append('tarea_id', this.tareaParaComprobante.id!.toString());
+    formData.append('id_tarea', this.tareaParaComprobante.id!.toString());
 
     this.comprobantesService.enviarComprobante(formData).subscribe({
       next: (response) => {
@@ -356,6 +356,7 @@ export class PrincipalCliente {
       },
       error: (error) => {
         alert('Error al enviar el comprobante');
+        console.error('Error:', error);
       }
     });
   }

@@ -258,7 +258,7 @@
     <div class="modal-content">
       <button class="close" (click)="cerrarModalComprobante()">X</button>
       <h2>Subir Comprobante de Pago</h2>
-      @if(tareaSeleccionada?.estado !== "Aprobada") {
+      @if(tareaSeleccionada?.comprobantes?.length === 0) {
         <form (ngSubmit)="enviarComprobante()">
           <div>
             <label>Comprobante (Solo PDF):</label>
@@ -276,8 +276,15 @@
         @if (tareaSeleccionada) {
           @if (tareaSeleccionada.comprobantes) {
             <iframe [src]="getSafeUrl(tareaSeleccionada.comprobantes[0].url_comprobante || '')" width="100%" height="600px"></iframe>
+            <p><strong>Comprobante subido el: </strong> {{ tareaSeleccionada.comprobantes[0].fecha_creacion| date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Comentarios: </strong> {{
+              tareaSeleccionada.comprobantes[0].comentario || 'Sin comentarios' }}</p>
+            <p><strong>Comprobante revisado el: </strong> {{ tareaSeleccionada.comprobantes[0].fecha_revision ? (tareaSeleccionada.comprobantes[0].fecha_revision | date:'dd/MM/yyyy HH:mm') : "Aun no se revisa" }}</p>
+            <p><strong>Estado: </strong> {{
+              tareaSeleccionada.comprobantes[0].estado_comprobante || 'Sin comentarios' }}</p>
+          }
           }
         }
-      }
+      
     </div>
   </div>
