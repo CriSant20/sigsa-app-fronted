@@ -73,15 +73,20 @@ export class PrincipalCliente {
 
   get filteredTareas() {
     return this.tareasUsuarios.filter((tarea) => {
-      const matchesQuery =
-        !this.searchQuery || tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
+      // Search by name
+      const matchesSearch = !this.searchQuery || 
+        tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
+      
+      // Existing filters
       const matchesState = !this.filterState || tarea.estado === this.filterState;
-      const matchesFechaInicio = !this.fechaInicio || new Date(tarea.fecha_envio) >= new Date(this.fechaInicio);
-      const matchesfechaFin = !this.fechaFin || new Date(tarea.fecha_a_realizar) <= new Date(this.fechaFin);
-      return matchesQuery && matchesState && matchesFechaInicio && matchesfechaFin;
+      const matchesFechaInicio = !this.fechaInicio || 
+        new Date(tarea.fecha_envio) >= new Date(this.fechaInicio);
+      const matchesFechaFin = !this.fechaFin || 
+        new Date(tarea.fecha_a_realizar) <= new Date(this.fechaFin);
+
+      return matchesSearch && matchesState && matchesFechaInicio && matchesFechaFin;
     });
   }
-
   mostrarSolicitudes() {
     this.perfilVisible = false;
   }
