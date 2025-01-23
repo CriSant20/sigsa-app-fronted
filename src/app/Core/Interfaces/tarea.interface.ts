@@ -31,11 +31,11 @@ export interface Comentario {
 }
 
 export interface Encuesta {
-    encuesta_id:    number;
+    encuesta_id?:    number;
     id_tarea:       number;
     atencion:       string;
     costo:          string;
     calidad:        string;
     nota:           number;
-    fecha_encuesta: Date;
+    fecha_encuesta?: Date;
 }
