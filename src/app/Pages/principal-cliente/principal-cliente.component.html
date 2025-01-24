@@ -56,9 +56,8 @@
             <td>{{ tarea.costo || '-' }}</td>
             <td>
               <div class="actions">
-                <button *ngIf="tarea.estado === 'en revision'" class="cancelar"
-                  (click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
-                <button class="pago" (click)="abrirModalComprobante(tarea, $event)">Pago</button>
+                <button *ngIf="tarea.estado === 'En Revisión'" class="cancelar-btn"(click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
+                  <button class="pago" *ngIf="tarea.costo! > 0" (click)="abrirModalComprobante(tarea, $event)">Pago</button>
                 <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
                 <button class="informacion" (click)="mostrarInformacion(tarea, $event)">Información</button>
               </div>
@@ -302,5 +301,16 @@
           }
         }
       
+    </div>
+  </div>
+  
+  <div class="modal" *ngIf="cancelarTareaVisible">
+    <div class="modal-content">
+      <h2>Confirmar Cancelación</h2>
+      <p>¿Está seguro que desea cancelar la tarea "{{ tareaCancelar?.nombre }}"?</p>
+      <div class="buttons">
+        <button class="submit" (click)="confirmarCancelacion()">Confirmar</button>
+        <button class="cancel" (click)="cerrarModalCancelar()">Cancelar</button>
+      </div>
     </div>
   </div>
