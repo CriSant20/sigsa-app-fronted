@@ -4,6 +4,7 @@ import { MenuComponent } from '../../Components/menu/menu.component';
 import { NavbarComponent } from '../../Components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-gestion-administrador-tareas',
   imports: [
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   templateUrl: './gestion-administrador-tareas.component.html',
-  styleUrls: ['./gestion-administrador-tareas.component.css'], // Corregido typo `styleUrl` a `styleUrls`
+  styleUrls: ['./gestion-administrador-tareas.component.css'],
   standalone: true,
 })
 export class GestionAdministradorTareasComponent {
@@ -24,46 +25,63 @@ export class GestionAdministradorTareasComponent {
       name: 'Informe de rendimiento',
       date: '21/01/2024',
       status: 0,
-      rubrica: '3 puntos presentacion, 4 puntos creatividad',
+      rubrica: '3 puntos presentación, 4 puntos creatividad',
       cliente: 'Manuel Medina',
       showDetails: false,
+      comment: '', // Nuevo campo para guardar el comentario
     },
     {
       id: 2,
       name: 'Collage',
       date: '21/01/2024',
       status: 1,
-      rubrica: '6 puntos presentacion, 4 puntos creatividad',
+      rubrica: '6 puntos presentación, 4 puntos creatividad',
       cliente: 'Pepe Peña',
       showDetails: false,
+      comment: '', // Nuevo campo para guardar el comentario
     },
-    // Otros objetos de ejemplo
   ];
 
-  toggleStatus(index: number) {
+  // Modal: Fila seleccionada para emitir comentarios
+  currentRow: any = null;
+
+  // Establece la fila actual seleccionada al abrir el modal
+  setCurrentRow(index: number): void {
+    this.currentRow = this.data[index];
+  }
+
+  // Guarda el comentario ingresado en la fila actual
+  saveComment(): void {
+    if (this.currentRow) {
+      console.log(
+        `Comentario guardado para la tarea ${this.currentRow.name}: ${this.currentRow.comment}`
+      );
+      alert('Comentario guardado exitosamente.');
+    }
+  }
+
+  // Alterna la visibilidad de los detalles
+  toggleDetails(index: number): void {
+    this.data[index].showDetails = !this.data[index].showDetails;
+  }
+
+  // Cambia el estado cíclicamente
+  toggleStatus(index: number): void {
     this.data[index].status =
-      (this.data[index].status + 1) % this.statusOptions.length; // Cambia el estado cíclicamente
+      (this.data[index].status + 1) % this.statusOptions.length;
   }
 
-  toggleDetails(index: number) {
-    this.data[index].showDetails = !this.data[index].showDetails; // Alterna la visibilidad de los detalles
+  // Gestiona el cambio de estado desde el select
+  onStatusChange(index: number, value: number): void {
+    console.log(`Estado cambiado a: ${value} en la fila ${index}`);
+    this.data[index].status = value;
   }
 
-  // Arreglo para gestionar el estado de cada select individualmente
-  statusSelections = this.data.map((item) => item.status); // Se inicializa con el estado correspondiente a cada fila
-
+  // Opciones de estado
   statusOptions = [
     { value: 0, label: 'En Revisión' },
     { value: 1, label: 'Aprobada - Pago Pendiente' },
     { value: 2, label: 'En Progreso' },
-    { value: 2, label: 'Finalizado' },
+    { value: 3, label: 'Finalizado' },
   ];
-  performAction(index: number) {
-    console.log(`Realizando acción para la fila: ${index}`);
-    // Aquí puedes agregar el código para lo que desees realizar con la acción del botón
-  }
-  onStatusChange(index: number, value: number) {
-    console.log(`Estado cambiado a: ${value} en la fila ${index}`);
-    this.data[index].status = value;
-  }
 }

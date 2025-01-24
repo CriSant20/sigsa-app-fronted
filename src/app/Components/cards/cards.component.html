@@ -1,8 +1,33 @@
 <div class="card" style="width: 18rem;">
-    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Imagen de ejemplo">
+    <!-- Mostrar la imagen si 'adjunto_url' existe, de lo contrario mostrar un placeholder -->
+    <img
+      class="card-img-top"
+      alt="Imagen adjunta"
+    />
     <div class="card-body">
-        <h5 class="card-title">Título de la Tarjeta</h5>
-        <p class="card-text">Esta es una breve descripción del contenido que se muestra en la tarjeta.</p>
-        <a href="#" class="btn btn-primary">Leer más</a>
+      <!-- Nombre de la tarea -->
+      <h5 class="card-title">{{ tarea.nombre }}</h5>
+      <p class="card-text" *ngIf="tarea.tipo_tarea">
+        <strong>Tipo de tarea:</strong> {{ tarea.tipo_tarea }}
+      </p>
+      <!-- Indicaciones -->
+      <p class="card-text">
+        <strong>Indicaciones:</strong> {{ tarea.indicaciones }}
+      </p>
+      <!-- Rúbrica -->
+      <p class="card-text">
+        <strong>Rúbrica:</strong> {{ tarea.rubrica }}
+      </p>
+      <!-- Estado -->
+      <p class="card-text" *ngIf="tarea.estado !== undefined">
+        <strong>Estado:</strong> {{ tarea.estado }}
+      </p>
+      <p class="card-text">
+        <strong>Fecha a realizar:</strong> {{ tarea.fecha_a_realizar | date: 'shortDate' }}
+      </p>
+      
+      <!-- Botón de acción -->
+      <a href="#" class="btn btn-primary">Leer más</a>
     </div>
-</div>
+  </div>
+  

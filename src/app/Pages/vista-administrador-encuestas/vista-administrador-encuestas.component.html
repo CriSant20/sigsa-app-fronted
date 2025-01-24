@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Plantilla básica de HTML para desarrollo web" />
+  <title>Gestión Sigsa Software</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="layout-wrapper">
+    <!-- Barra de Navegación -->
+    <app-navbar></app-navbar>
+    <app-menu></app-menu>
+
+    <!-- Contenedor principal -->
+    <main class="main-content">
+      <div class="container py-4">
+        <h1 class="text-center my-4">Encuestas de Satisfacción</h1>
+
+        <div class="row gy-4">
+          <!-- Tarjetas dentro de la sección -->
+          <div class="col-md-4">
+            <app-encuesta class="card h-100"></app-encuesta>
+          </div>
+          <div class="col-md-4">
+            <app-encuesta class="card h-100"></app-encuesta>
+          </div>
+          <div class="col-md-4">
+            <app-encuesta class="card h-100"></app-encuesta>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer mt-4">
+      <app-footer></app-footer>
+    </footer>
+  </div>
+</body>
+</html>

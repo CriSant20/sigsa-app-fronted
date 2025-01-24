@@ -1,0 +1,48 @@
+.card {
+    width: 18rem;
+    border: 1px solid #742c2c;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text strong {
+    font-weight: 700;
+    color: #333;
+  }
+  
+  .card-text p {
+    margin: 0;
+  }
+  
+  /* Si deseas un fondo suave para resaltar cada sección */
+  .card-body p:nth-child(odd) {
+    background-color: #f9f9f9;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
+  
