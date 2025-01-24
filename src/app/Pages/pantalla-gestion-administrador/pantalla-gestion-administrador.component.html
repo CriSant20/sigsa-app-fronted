@@ -21,14 +21,8 @@
 
         <div class="row gy-4">
           <!-- Tarjetas dentro de la sección -->
-          <div class="col-md-4">
-            <app-cards class="card h-100"></app-cards>
-          </div>
-          <div class="col-md-4">
-            <app-cards class="card h-100"></app-cards>
-          </div>
-          <div class="col-md-4">
-            <app-cards class="card h-100"></app-cards>
+          <div class="col-md-4" *ngFor="let card of cards">
+            <app-cards [tarea]="card" class="card h-100"></app-cards>
           </div>
         </div>
       </div>

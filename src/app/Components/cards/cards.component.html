@@ -7,21 +7,28 @@
     <div class="card-body">
       <!-- Nombre de la tarea -->
       <h5 class="card-title">{{ tarea.nombre }}</h5>
+      
+      <!-- Tipo de tarea (si está disponible) -->
       <p class="card-text" *ngIf="tarea.tipo_tarea">
         <strong>Tipo de tarea:</strong> {{ tarea.tipo_tarea }}
       </p>
+      
       <!-- Indicaciones -->
       <p class="card-text">
         <strong>Indicaciones:</strong> {{ tarea.indicaciones }}
       </p>
+      
       <!-- Rúbrica -->
       <p class="card-text">
         <strong>Rúbrica:</strong> {{ tarea.rubrica }}
       </p>
-      <!-- Estado -->
+      
+      <!-- Estado (si está disponible) -->
       <p class="card-text" *ngIf="tarea.estado !== undefined">
         <strong>Estado:</strong> {{ tarea.estado }}
       </p>
+      
+      <!-- Fecha a realizar (con formato) -->
       <p class="card-text">
         <strong>Fecha a realizar:</strong> {{ tarea.fecha_a_realizar | date: 'shortDate' }}
       </p>
@@ -29,5 +36,6 @@
       <!-- Botón de acción -->
       <a href="#" class="btn btn-primary">Leer más</a>
     </div>
+
   </div>
   
