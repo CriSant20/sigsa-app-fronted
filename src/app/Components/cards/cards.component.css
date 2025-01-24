@@ -62,3 +62,48 @@
         width: 100%;
     }
 }
+
+
+/* Borde según el estado */
+.card.en-revisin {
+    border: 3px solid #ffc107; /* Amarillo */
+  }
+  .card.aprobada {
+    border: 3px solid #28a745; /* Verde */
+  }
+  .card.en-progreso {
+    border: 3px solid #17a2b8; /* Azul */
+  }
+  .card.finalizado {
+    border: 3px solid #6c757d; /* Gris */
+  }
+  .card.rechazada {
+    border: 3px solid #dc3545; /* Rojo */
+  }
+  .card.cancelada {
+    border: 3px solid #343a40; /* Negro */
+  }
+  
+  /* Color del texto del estado */
+  .estado {
+    font-weight: bold;
+  }
+  .estado.en-revisin {
+    color: #ffc107; /* Amarillo */
+  }
+  .estado.aprobada {
+    color: #28a745; /* Verde */
+  }
+  .estado.en-progreso {
+    color: #17a2b8; /* Azul */
+  }
+  .estado.finalizado {
+    color: #6c757d; /* Gris */
+  }
+  .estado.rechazada {
+    color: #dc3545; /* Rojo */
+  }
+  .estado.cancelada {
+    color: #343a40; /* Negro */
+  }
+  
