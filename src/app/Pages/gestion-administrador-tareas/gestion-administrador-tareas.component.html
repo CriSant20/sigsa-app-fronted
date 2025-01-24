@@ -61,7 +61,15 @@
                 </td>
 
 
-                <td>{{ tarea.costo || '-' }}</td>
+                <td>
+                  <input
+                    type="number"
+                    [(ngModel)]="tarea.costo"
+                    (change)="ingresarCosto(tarea.id ?? 0, tarea.costo ?? 0)"
+                    placeholder="0"
+                    min="0"
+                  />
+                </td>
                 <td>
                   <div class="actions">
                     <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>

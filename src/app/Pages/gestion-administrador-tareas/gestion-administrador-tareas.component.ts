@@ -314,4 +314,32 @@ export class GestionAdministradorTareasComponent {
       }
     );
   }
+
+
+  ingresarCosto(id: number, nuevoCosto: number | undefined): void {
+    if (nuevoCosto === undefined || nuevoCosto < 0) {
+      alert('Por favor, ingrese un costo válido (mayor o igual a 0).');
+      return;
+    }
+
+    const tarea = this.tareasUsuarios.find((t) => t.id === id);
+    if (tarea) {
+      // Llama al servicio para actualizar el costo en el backend
+      this.tareasService
+        .updateCosto(id, { costo: nuevoCosto })
+        .subscribe({
+          next: (actualizada) => {
+            // Actualiza el costo en la lista de tareas
+            tarea.costo = actualizada.costo;
+            //delete tarea.nuevoCosto; // Limpia la variable temporal
+            alert('Costo actualizado correctamente.');
+          },
+          error: (err) => {
+            console.error('Error al actualizar el costo:', err);
+            alert('Hubo un problema al actualizar el costo. Intente nuevamente.');
+          },
+        });
+    }
+  }
+  
 }

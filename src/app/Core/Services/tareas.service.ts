@@ -38,7 +38,9 @@ export class TareasService {
   updateEstado(tareaId: number, tarea: { estado: string }): Observable<Tarea> {
     return this.http.put<Tarea>(`${this.apiUrl}/tareas/${tareaId}`, tarea);
   }
-  
+  updateCosto(tareaId: number, tarea: { costo: number }): Observable<Tarea> {
+    return this.http.put<Tarea>(`${this.apiUrl}/tareas/${tareaId}`, tarea);
+  }
   
   
 
