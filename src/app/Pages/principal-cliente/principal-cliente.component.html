@@ -1,8 +1,8 @@
 <div class="sidebar">
   <img src="logo.png" alt="Logo" class="logo" />
   <ul class="menu">
-    <li><a routerLink="/solicitudes">Mis Solicitudes</a></li>
-    <li><a (click)="showPerfil()">Perfil</a></li>
+    <li><a (click)="mostrarSolicitudes()">Mis Solicitudes</a></li>
+    <li><a (click)="mostrarPerfil()">Perfil</a></li>
     <li><a (click)="cerrarSesion()">Cerrar Sesión</a></li>
   </ul>
 </div>
@@ -10,48 +10,69 @@
 <div class="main-content">
   <header>
     <h1>Gestión Cliente</h1>
+    <p class="user-info">
+      {{ usuario?.nombre_usuario || "Usuario anónimo" }}
+    </p>
   </header>
 
-  <section>
+  <section *ngIf="!perfilVisible" class="filter-section">
     <div class="filters">
-      <button (click)="agregarTarea()">Agregar Tarea</button>
+      <button (click)="abrirModalAgregarTarea()">Agregar Tarea</button>
       <input type="text" placeholder="Buscar tarea..." [(ngModel)]="searchQuery" />
       <select [(ngModel)]="filterState">
         <option value="">Todos los estados</option>
-        <option value="en revision">En Revisión</option>
-        <option value="aprobado">Aprobado</option>
-        <option value="cancelado">Cancelado</option>
+        <option value="En Revisión">En Revisión</option>
+        <option value="Aprobada">Aprobada</option>
+        <option value="En Progreso">En Progreso</option>
+        <option value="Finalizado">Finalizado</option>
+        <option value="Rechazada">Rechazada</option>
+        <option value="Cancelada">Cancelada</option>
       </select>
-      <input type="date" [(ngModel)]="startDate" />
-      <input type="date" [(ngModel)]="endDate" />
+      <input type="date" [(ngModel)]="fechaInicio" />
+      <input type="date" [(ngModel)]="fechaFin" />
       <button (click)="borrarFiltros()">Borrar Filtros</button>
     </div>
-
     <div class="table-container">
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Tarea</th>
-            <th>Fecha Entrega</th>
+            <th>Fecha Envio</th>
+            <th>Fecha de Entrega</th>
             <th>Estado</th>
+            <th>Costo</th>
             <th>Acciones</th>
             <th>Encuesta</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let tarea of filteredTareas">
-            <td (click)="seleccionarTarea(tarea)">{{ tarea.nombre }}</td>
-            <td (click)="seleccionarTarea(tarea)">{{ formatFecha(tarea.fechaEntrega) }}</td>
-            <td (click)="seleccionarTarea(tarea)">{{ tarea.estado }}</td>
+            <td>{{ tarea.id }}</td>
+            <td>{{ tarea.nombre }}</td>
+            <td>{{ tarea.fecha_envio | date:'yyyy-MM-dd' }}</td>
+            <td>{{ tarea.fecha_a_realizar}}</td>
+            <td>{{ tarea.estado }}</td>
+            <td>{{ tarea.costo || '-' }}</td>
             <td>
               <div class="actions">
-                <button class="cancelar" (click)="cancelarPago(tarea, $event)">Cancelar Pago</button>
-                <button class="pago" (click)="pagar(tarea, $event)">Pago</button>
+                <button *ngIf="tarea.estado === 'en revision'" class="cancelar"
+                  (click)="cancelarTarea(tarea, $event)">Cancelar Tarea</button>
+                <button class="pago" (click)="abrirModalComprobante(tarea, $event)">Pago</button>
                 <button class="comentario" (click)="abrirChat(tarea, $event)">Comentario</button>
+                <button class="informacion" (click)="mostrarInformacion(tarea, $event)">Información</button>
               </div>
             </td>
             <td>
-              <button class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
+              @if (tarea.estado === 'Finalizado') {
+              <button class="survey-button" (click)="abrirEncuesta(tarea, $event)">Encuesta</button>
+              }
+              @else if (tarea.estado === "Rechazada") {
+              <p>Rechazada</p>
+              }
+              @else{
+              <p>No finalizado</p>
+              }
             </td>
           </tr>
         </tbody>
@@ -59,67 +80,227 @@
     </div>
   </section>
 
+  <section *ngIf="perfilVisible" class="perfil-interfaz">
+    <button class="close" (click)="cerrarPerfil()">X</button>
+    <h2>Perfil</h2>
+    <div class="contenedor-foto">
+      <img [src]="foto" alt="Foto de Perfil" class="usuario-foto" />
+    </div>
+    <div class="perfil-datos">
+      <div class="perfil-item">
+        <label><strong>Nombre:</strong></label>
+        <input [(ngModel)]="usuario!.nombre" />
+      </div>
+      <div class="perfil-item">
+        <label><strong>Apellido:</strong></label>
+        <input [(ngModel)]="usuario!.apellido" />
+      </div>
+      <div class="perfil-item">
+        <label><strong>Celular:</strong></label>
+        <input [(ngModel)]="usuario!.numero" readonly />
+      </div>
+      <div class="perfil-item">
+        <label><strong>Correo:</strong></label>
+        <input [(ngModel)]="usuario!.correo" />
+      </div>
+      <div class="perfil-item">
+        <label><strong>Institución:</strong></label>
+        <input [(ngModel)]="usuario!.institucion" readonly />
+      </div>
+      <div class="perfil-item">
+        <label><strong>Carrera:</strong></label>
+        <input [(ngModel)]="usuario!.carrera" />
+      </div>
+    </div>
+    <div class="buttons">
+      <button *ngIf="!editando" (click)="editarPerfil()">Guardar</button>
+    </div>
+  </section>
+
   <footer>
     <p>SIGSA - ModoCliente</p>
   </footer>
 
-  <div class="modal" *ngIf="perfilVisible">
+  <!-- Modal de Información -->
+  <div class="modal" *ngIf="informacionVisible">
     <div class="modal-content">
-      <button class="close" (click)="closePerfil()">X</button>
-      <h2>Perfil</h2>
-      <img src="logo.png" alt="Logo" class="logo" />
-      <div class="perfil-datos">
-        <div><strong>Nombre:</strong> {{ usuario.nombre }}</div>
-        <div><strong>Apellido:</strong> {{ usuario.apellido }}</div>
-        <div><strong>Celular:</strong> {{ usuario.celular }}</div>
-        <div><strong>Correo:</strong> {{ usuario.correo }}</div>
-        <div><strong>Institución:</strong> {{ usuario.institucion }}</div>
-        <div><strong>Carrera:</strong> {{ usuario.carrera }}</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" *ngIf="tareaSeleccionada">
-    <div class="modal-content">
-      <button class="close" (click)="cerrarModalTarea()">X</button>
-      <h2>Detalles de la Tarea</h2>
+      <button class="close" (click)="cerrarModalInformacion()">X</button>
+      <h2>Información de la Tarea</h2>
       <div class="tarea-datos">
-        <div><strong>Nombre:</strong> {{ tareaSeleccionada.nombre }}</div>
-        <div><strong>Fecha Entrega:</strong> {{ formatFecha(tareaSeleccionada.fechaEntrega) }}</div>
-        <div><strong>Estado:</strong> {{ tareaSeleccionada.estado }}</div>
+        <div><strong>Nombre:</strong> {{ tareaSeleccionada!.nombre }}</div>
+        <div><strong>Fecha Envio:</strong> {{ tareaSeleccionada!.fecha_envio | date:'yyyy-MM-dd' }}</div>
+        <div><strong>Fecha Entrega:</strong> {{ tareaSeleccionada!.fecha_a_realizar}}</div>
+        <div><strong>Fecha Realizada:</strong> {{ tareaSeleccionada!.fecha_realizada || 'Aun no se ha realizado'}}</div>
+
+        <div><strong>Estado:</strong> {{ tareaSeleccionada!.estado }}</div>
+        <div><strong>Rubrica de la tarea:</strong> {{ tareaSeleccionada!.rubrica }}</div>
+        <div><strong>Indicaciones de la tarea:</strong> {{ tareaSeleccionada!.indicaciones }}</div>
+        <iframe [src]="getSafeUrl(tareaSeleccionada?.adjunto_url || '')" width="100%" height="600px"></iframe>
       </div>
     </div>
   </div>
 
+  <!-- Modal de Comentarios -->
+  <div class="modal" *ngIf="comentarioVisible">
+    <div class="modal-content">
+      <button class="close" (click)="cerrarModalComentario()">X</button>
+      <h2>Comentarios</h2>
+
+      <div class="comentarios-list">
+        <div *ngFor="let comentario of comentarios" class="comentario-item">
+          <div class="comentario-header">
+            <span class="usuario">{{comentario.usuario?.nombre_usuario}}</span>
+            <span class="fecha">{{comentario.fecha_comentario | date:'dd/MM/yyyy HH:mm'}}</span>
+          </div>
+          <div class="comentario-texto">
+            {{comentario.comentario}}
+          </div>
+        </div>
+      </div>
+
+      <div class="nuevo-comentario">
+        <textarea [(ngModel)]="nuevoComentario" rows="3" placeholder="Escriba un comentario..."
+          name="nuevoComentario"></textarea>
+        <button (click)="guardarComentario()" [disabled]="!nuevoComentario.trim()">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Encuesta -->
   <div class="modal" *ngIf="encuestaVisible">
     <div class="modal-content">
       <button class="close" (click)="cerrarEncuesta()">X</button>
       <h2>Encuesta de Satisfacción</h2>
-      <form (ngSubmit)="enviarEncuesta()">
+      @if (tareaSeleccionada?.encuestas?.length === 0) {
+        <form (ngSubmit)="enviarEncuesta()">
+          <div>
+            <label>¿Cómo calificaría la atención recibida?</label>
+            <select [(ngModel)]="encuesta.atencion" name="atencion">
+              <option value="Buena">Buena</option>
+              <option value="Normal">Regular</option>
+              <option value="Mala">Mala</option>
+            </select>
+          </div>
+          <div>
+            <label>¿Cómo calificaría la calidad de su tarea?</label>
+            <select [(ngModel)]="encuesta.calidad" name="resolucion">
+              <option value="Excelente">Excelente</option>
+              <option value="Normal">Regular</option>
+              <option value="Mala">Mala</option>
+            </select>
+          </div>
+          <div>
+            <label>¿Cómo calificaría el costo de su tarea?</label>
+            <select [(ngModel)]="encuesta.costo" name="resolucion">
+              <option value="Caro">Caro</option>
+              <option value="Normal">Normal</option>
+              <option value="Barato">Barato</option>
+            </select>
+          </div>
+          <div>
+            <label>¿Qué nota obtuviste en la tarea?</label>
+            <input type="number" [(ngModel)]="encuesta.nota" name="nota" min="0" max="10" required
+              placeholder="Ingrese nota (0-10)" />
+          </div>
+          <button type="submit">Enviar</button>
+        </form>
+      }@else {
+        <p class="encuesta-texto"><strong>Haz Realizado Tu Encuesta</strong></p>
+        @if (tareaSeleccionada) {
+          @if (tareaSeleccionada.encuestas) {
+            <p><strong>Calificación de Atención:</strong> {{ tareaSeleccionada.encuestas[0].atencion }}</p>
+            <p><strong>Calificación de Calidad:</strong> {{ tareaSeleccionada.encuestas[0].calidad }}</p>
+            <p><strong>Calificación de Costo:</strong> {{ tareaSeleccionada.encuestas[0].costo }}</p>
+            <p><strong>Nota Obtenida:</strong> {{ tareaSeleccionada.encuestas[0].nota }}</p>
+          }
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Modal de Agregar Tarea -->
+  <div class="modal" *ngIf="agregarTareaVisible">
+    <div class="modal-content agregar-tarea">
+      <button class="close" (click)="cerrarModalAgregarTarea()">X</button>
+      <h2>Agregar Tarea</h2>
+      <form (ngSubmit)="guardarTarea()">
         <div>
-          <label>¿Cómo calificaría la atención recibida?</label>
-          <select [(ngModel)]="encuesta.atencion" name="atencion">
-            <option value="excelente">Excelente</option>
-            <option value="buena">Buena</option>
-            <option value="regular">Regular</option>
-            <option value="mala">Mala</option>
+          <label>Tarea:</label>
+          <input type="text" [(ngModel)]="nuevaTarea.nombre" name="nombre" required />
+        </div>
+        <div>
+          <label>Indicaciones/Detalle:</label>
+          <textarea [(ngModel)]="nuevaTarea.indicaciones" name="detalle" required></textarea>
+        </div>
+        <div>
+          <label>Tipo:</label>
+          <select [(ngModel)]="nuevaTarea.tipo_tarea" name="tipo" required>
+            <option value="Informe">Informe</option>
+            <option value="Tarea">Tarea</option>
+            <option value="Proyecto">Proyecto</option>
+            <option value="Investigacion">Investigación</option>
+            <option value="Ensayo">Ensayo</option>
+            <option value="Articulo">Artículo</option>
+            <option value="Consulta">Consulta</option>
           </select>
         </div>
         <div>
-          <label>¿Cómo calificaría la resolución de su tarea?</label>
-          <select [(ngModel)]="encuesta.resolucion" name="resolucion">
-            <option value="excelente">Excelente</option>
-            <option value="buena">Buena</option>
-            <option value="regular">Regular</option>
-            <option value="mala">Mala</option>
-          </select>
+          <label>Rúbrica:</label>
+          <textarea [(ngModel)]="nuevaTarea.rubrica" name="rubrica" required></textarea>
         </div>
         <div>
-          <label>Comentarios adicionales:</label>
-          <textarea [(ngModel)]="encuesta.comentarios" name="comentarios"></textarea>
+          <label>Fecha a realizar:</label>
+          <input type="date" [(ngModel)]="nuevaTarea.fecha_a_realizar" name="fecha_a_realizar" required min="2024-01-01"
+            max="2030-12-31" />
         </div>
-        <button type="submit">Enviar</button>
+        <div>
+          <label>Adjunto:</label>
+          <div class="file-info">{{ nuevaTarea.adjunto?.name || 'No adjunto seleccionado' }}</div>
+          <label class="file-label" for="adjunto">Seleccionar archivo</label>
+          <input type="file" id="adjunto" (change)="onFileSelected($event)" />
+        </div>
+        <div class="buttons">
+          <button type="submit" class="submit">Enviar</button>
+          <button type="button" class="cancel" (click)="cerrarModalAgregarTarea()">Cancelar</button>
+        </div>
       </form>
     </div>
   </div>
-</div>
+
+  <!-- Modal de comprobantes -->
+  <div class="modal" *ngIf="comprobanteVisible">
+    <div class="modal-content">
+      <button class="close" (click)="cerrarModalComprobante()">X</button>
+      <h2>Subir Comprobante de Pago</h2>
+      @if(tareaSeleccionada?.comprobantes?.length === 0) {
+        <form (ngSubmit)="enviarComprobante()">
+          <div>
+            <label>Comprobante (Solo PDF):</label>
+            <div class="file-info">{{ comprobante?.name || 'No se ha seleccionado archivo' }}</div>
+            <label class="file-label" for="comprobante">Seleccionar PDF</label>
+            <input type="file" id="comprobante" (change)="onComprobanteSelected($event)" accept="application/pdf" />
+          </div>
+          <div class="buttons">
+            <button type="submit" class="submit" [disabled]="!comprobante">Enviar</button>
+            <button type="button" class="cancel" (click)="cerrarModalComprobante()">Cancelar</button>
+          </div>
+        </form>
+      }
+      @else{
+        @if (tareaSeleccionada) {
+          @if (tareaSeleccionada.comprobantes) {
+            <iframe [src]="getSafeUrl(tareaSeleccionada.comprobantes[0].url_comprobante || '')" width="100%" height="600px"></iframe>
+            <p><strong>Comprobante ID: </strong> {{
+              tareaSeleccionada.comprobantes[0].id_comprobante || 'Sin comentarios' }}</p>
+            <p><strong>Comprobante subido el: </strong> {{ tareaSeleccionada.comprobantes[0].fecha_creacion| date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Comentarios: </strong> {{
+              tareaSeleccionada.comprobantes[0].comentario || 'Sin comentarios' }}</p>
+            <p><strong>Comprobante revisado el: </strong> {{ tareaSeleccionada.comprobantes[0].fecha_revision ? (tareaSeleccionada.comprobantes[0].fecha_revision | date:'dd/MM/yyyy HH:mm') : "Aun no se revisa" }}</p>
+            <p><strong>Estado: </strong> {{
+              tareaSeleccionada.comprobantes[0].estado_comprobante || 'Sin comentarios' }}</p>
+          }
+          }
+        }
+      
+    </div>
+  </div>

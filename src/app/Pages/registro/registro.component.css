@@ -185,3 +185,35 @@ body {
         width: 66.67%;
     }
 }
+
+.right-side form .input-group select {
+    width: 108%;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    background-color: #ECECEC;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    
+}
+
+.right-side form .input-group select:focus {
+    outline: none;
+    border-color: #6358dc;
+    box-shadow: 0 0 0 3px rgba(99, 88, 220, 0.1);
+}
+.right-side form .input-group select option:disabled {
+    color: #999; /* Color más tenue */
+    background-color: #f0f0f0; /* Fondo más claro */
+    opacity: 0.6; /* Reducción de la opacidad */
+}
+
+.right-side form .input-group select::placeholder {
+    color: #999;  /* Color tenue para el placeholder */
+}
+.right-side form .input-group select:invalid {
+    color: #999;
+}
+/* .right-side form .input-group select:valid {
+    color: #000;
+} */
