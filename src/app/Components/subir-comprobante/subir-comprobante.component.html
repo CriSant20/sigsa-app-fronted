@@ -1,0 +1,52 @@
+<div class="upload-container">
+    <div class="upload-header">
+        <!-- Agregar la X para cerrar -->
+<button class="close-btn" (click)="cerrarComprobante()">X</button>
+
+        <img src="IConosubirComprobante.png" alt="Upload Icon"/>
+        <div>
+            <h2>Subir comprobantes</h2>
+            <p>Selecciona y sube tu comprobante de pago</p>
+        </div>
+    </div>
+    
+    <div class="upload-box" 
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)">
+        <img src="IConoCentralsubirComprobante.png" alt="Upload Icon"/>
+        <p>Escoge un archivo o arrástralo y suéltalo aquí</p>
+        <p>Formatos JPEG, PNG, PDF y MP4, hasta 50MB</p>
+        <input 
+            #fileInput
+            type="file" 
+            style="display: none;"
+            (change)="onFileSelected($event)"
+            accept=".jpeg,.jpg,.png,.pdf,.mp4"/>
+        <button (click)="fileInput.click()">
+            Buscar archivo
+        </button>
+    </div>
+
+    <div id="fileList">
+        <div class="file-item" *ngFor="let item of uploadedFiles">
+            <img src="https://storage.googleapis.com/a1aa/image/22xeZUKjPqQeEE6WfjxkZpnReSAOjM1NIQrRWYucq4ylh5cQB.jpg" alt="File Icon">
+            <div class="file-info">
+                <p>{{item.name}}</p>
+                <p class="file-status">{{item.size}} • <span>{{item.status}}</span></p>
+                <div class="file-progress">
+                    <div class="progress-bar" [style.width.%]="item.progress"></div>
+                </div>
+            </div>
+            <div class="file-actions">
+                <button 
+                    *ngIf="item.progress === 100 && !item.uploaded"
+                    class="upload-button" 
+                    (click)="uploadToServer(item)">
+                    Subir al servidor
+                </button>
+                <i class="fas fa-times" (click)="removeFile(item)"></i>
+            </div>
+        </div>
+    </div>
+</div>

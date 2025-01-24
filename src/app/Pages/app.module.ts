@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing-module';
     BrowserModule,
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: []
