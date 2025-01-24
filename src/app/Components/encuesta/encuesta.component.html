@@ -1,21 +1,13 @@
-<div class="card" style="width: 18rem;">
-    <!-- Atención -->
-    <p class="card-text"><strong>Atención:</strong> {{ tarea.atencion }}</p>
-
-    <!-- Costo -->
-    <p class="card-text"><strong>Costo:</strong> {{ tarea.costo }}</p>
-
-    <!-- Calidad -->
-    <p class="card-text"><strong>Calidad:</strong> {{ tarea.calidad }}</p>
-
-    <!-- Nota -->
-    <p class="card-text"><strong>Nota:</strong> {{ tarea.nota }}</p>
-
-    <!-- Fecha a realizar -->
+<div class="card" *ngIf="encuesta">
+  <div class="card-body">
+    <h5 class="card-title">Encuesta</h5>
+    <p class="card-text"><strong>Atención:</strong> {{ encuesta.atencion }}</p>
+    <p class="card-text"><strong>Costo:</strong> {{ encuesta.costo }}</p>
+    <p class="card-text"><strong>Calidad:</strong> {{ encuesta.calidad }}</p>
+    <p class="card-text"><strong>Nota:</strong> {{ encuesta.nota }}</p>
     <p class="card-text">
-      <strong>Fecha a realizar:</strong> {{ tarea.fecha_a_realizar | date: 'shortDate' }}
+      <strong>Tarea ID:</strong> {{ encuesta.id_tarea }}
     </p>
-
-    <!-- Botón de acción -->
-    <a href="#" class="btn btn-primary">Leer más</a>
+    <a [routerLink]="['/encuesta-detalle', encuesta.encuesta_id]" class="btn btn-primary">Detalles</a>
   </div>
+</div>

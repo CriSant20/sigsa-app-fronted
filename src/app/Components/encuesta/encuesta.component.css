@@ -1,48 +1,90 @@
 .card {
-    width: 18rem;
-    border: 1px solid #742c2c;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    background-color: #fff;
-    transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: linear-gradient(145deg, #e6f2ff, #ffffff); /* Softer blue gradient */
+  border: 1px solid #c6e2ff; /* Lighter border */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a5f7a; /* Deep teal color */
+  margin-bottom: 20px;
+  border-bottom: 2px solid #1a5f7a;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 10px;
+  background-color: #f0f8ff; /* Very light blue */
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.card-text:hover {
+  background-color: #e6f2ff; /* Slightly darker light blue */
+}
+
+.card-text strong {
+  color: #0a4b78; /* Deep blue */
+  text-decoration: underline;
+  min-width: 120px;
+  font-weight: 600;
+  margin-right: 15px;
+}
+
+.card-text span {
+  color: #2c3e50; /* Dark grayish blue */
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #0a4b78; /* Deep blue button */
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: auto;
+  align-self: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #1a5f7a; /* Slightly lighter blue on hover */
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(10, 75, 120, 0.4);
+}
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+    margin: 15px 0;
   }
-  
-  .card:hover {
-    transform: translateY(-10px);
-  }
-  
-  .card-body {
-    padding: 1.25rem;
-  }
-  
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 0.5rem;
-  }
-  
-  .card-text strong {
-    font-weight: 700;
-    color: #333;
-  }
-  
-  .card-text p {
-    margin: 0;
-  }
-  
-  /* Si deseas un fondo suave para resaltar cada sección */
-  .card-body p:nth-child(odd) {
-    background-color: #f9f9f9;
-    padding: 8px;
-    border-radius: 4px;
-  }
-  
-  
+}

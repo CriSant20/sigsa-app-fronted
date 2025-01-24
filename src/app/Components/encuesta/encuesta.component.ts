@@ -1,20 +1,14 @@
-import { CommonModule} from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-encuesta',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './encuesta.component.html',
-  styleUrl: './encuesta.component.css',
+  styleUrl: './encuesta.component.css'
 })
 export class EncuestaComponent {
-  tarea = {
-    atencion: 'Informe',
-    Costo:'Pepe',
-    Calidad: 'Excelente', // Enum: Atencion
-    costo: 'Moderado', // Enum: Costo
-    calidad: 'Alta', // Enum: Calidad
-    fecha_a_realizar: 'Alta', // Enum: Calidad
-    nota: 9.5, // Calificación o nota
-  };
+  @Input() encuesta: any;
 }

@@ -6,7 +6,9 @@ import { SubirComprobanteComponent } from './Components/subir-comprobante/subir-
 import { GestionAdministradorTareasComponent } from './Pages/gestion-administrador-tareas/gestion-administrador-tareas.component';
 import { RegistroComponent } from './Pages/registro/registro.component';
 import { VistaAdministradorEncuestasComponent } from './Pages/vista-administrador-encuestas/vista-administrador-encuestas.component';
+import { tokenRedirectGuard } from './Core/Guards/guards/token-redirect.guard';
 export const routes: Routes = [
+  { path: '',component:PrincipalCliente, canActivate: [tokenRedirectGuard] },
   // Ruta para el login
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },

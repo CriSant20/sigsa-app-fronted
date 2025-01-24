@@ -41,4 +41,10 @@ export class TareasService {
   
   
   
+
+  cancelarTarea(id: number) {
+    return this.http.put(`${this.apiUrl}/tareas/${id}`, {
+      estado: "Cancelada"
+    });
+  }
 }

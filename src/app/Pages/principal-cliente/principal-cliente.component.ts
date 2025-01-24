@@ -103,21 +103,24 @@ export class PrincipalCliente {
       .filter((tarea) => {
         const matchesSearch = !this.searchQuery ||
           tarea.nombre.toLowerCase().includes(this.searchQuery.toLowerCase());
-
+  
         const matchesState = !this.filterState || tarea.estado === this.filterState;
-
+  
         const tareaFechaEnvio = tarea.fecha_envio ? new Date(tarea.fecha_envio) : null;
         const tareaFechaRealizar = tarea.fecha_a_realizar ? new Date(tarea.fecha_a_realizar) : null;
+  
         const fechaInicioDate = this.fechaInicio ? new Date(this.fechaInicio) : null;
         const fechaFinDate = this.fechaFin ? new Date(this.fechaFin) : null;
-
-        const matchesFechaInicio = !fechaInicioDate || !tareaFechaEnvio ||
-          tareaFechaEnvio.getTime() >= fechaInicioDate.getTime();
-
-        const matchesFechaFin = !fechaFinDate || !tareaFechaRealizar ||
-          tareaFechaRealizar.getTime() <= fechaFinDate.getTime();
-
-        return matchesSearch && matchesState && matchesFechaInicio && matchesFechaFin;
+  
+        const matchesFechaEnvio = !fechaInicioDate || 
+          (tareaFechaEnvio && this.areSameDates(tareaFechaEnvio, fechaInicioDate));
+  
+        const matchesFechaRealizar = !fechaFinDate || 
+          (tareaFechaRealizar && this.areSameDates(tareaFechaRealizar, fechaFinDate));
+  
+        return matchesSearch && matchesState && 
+               (this.fechaInicio ? matchesFechaEnvio : true) && 
+               (this.fechaFin ? matchesFechaRealizar : true);
       })
       .sort((a, b) => {
         if (a.estado === 'Rechazada' && b.estado !== 'Rechazada') return 1;
@@ -125,6 +128,15 @@ export class PrincipalCliente {
         return 0;
       });
   }
+  
+  // Método auxiliar para comparar fechas
+  private areSameDates(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  }
+
+  
 
   mostrarSolicitudes() {
     this.perfilVisible = false;
@@ -148,11 +160,6 @@ export class PrincipalCliente {
       alert("Perfil guardado con éxito.");
       this.editando = false;
     });
-  }
-
-  cancelarTarea(tarea: any, event: Event) {
-    event.stopPropagation();
-    alert(`Tarea cancelada para ${tarea.nombre}`);
   }
 
   pagar(tarea: any, event: Event) {
@@ -389,5 +396,34 @@ export class PrincipalCliente {
       }
     });
   }
+  cancelarTareaVisible = false;
+  tareaCancelar: Tarea | null = null;
 
+  cancelarTarea(tarea: Tarea, event: Event) {
+    event.stopPropagation();
+    this.tareaCancelar = tarea;
+    this.cancelarTareaVisible = true;
+  }
+
+  // Add new method to confirm cancellation
+  confirmarCancelacion() {
+    if (!this.tareaCancelar) return;
+    
+    this.tareasService.cancelarTarea(this.tareaCancelar.id!).subscribe({
+      next: () => {
+        alert('Tarea cancelada con éxito');
+        this.cerrarModalCancelar();
+        this.getTareas();
+      },
+      error: (error) => {
+        alert('Error al cancelar la tarea');
+        console.error('Error:', error);
+      }
+    });
+  }
+
+  cerrarModalCancelar() {
+    this.cancelarTareaVisible = false;
+    this.tareaCancelar = null;
+  }
 }
