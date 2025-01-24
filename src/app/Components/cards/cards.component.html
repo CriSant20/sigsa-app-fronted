@@ -25,7 +25,7 @@
     </p>
     
     <!-- Estado con color dinámico -->
-    <p class="card-text estado" [ngClass]="tarea.estado | lowercase">
+    <p class="card-text estado" [ngClass]="getEstadoClase()">
       <strong>Estado:</strong> {{ tarea.estado }}
     </p>
     

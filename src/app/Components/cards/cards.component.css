@@ -65,7 +65,7 @@
 
 
 /* Borde según el estado */
-.card.en-revision {
+.card.en-revisin {
     border: 3px solid #ffc107; /* Amarillo */
   }
   .card.aprobada {
@@ -88,7 +88,7 @@
   .estado {
     font-weight: bold;
   }
-  .estado.en-revision {
+  .estado.en-revisin {
     color: #ffc107; /* Amarillo */
   }
   .estado.aprobada {
