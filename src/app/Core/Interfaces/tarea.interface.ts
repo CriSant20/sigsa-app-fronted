@@ -19,6 +19,7 @@ export interface Tarea {
     comentarios?:         Comentario[];
     encuestas?:           Encuesta[];
     comprobantes?:         Comprobante[];
+    tarea_realizada?:    File;
 }
 
 export interface Comentario {

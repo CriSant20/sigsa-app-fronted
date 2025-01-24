@@ -34,5 +34,30 @@ export class TareasService {
 
     return this.http.post<Tarea>(`${this.apiUrl}/tareas`, formData);
   }
+  updateTarea(tarea: Tarea): Observable<Tarea> {
+    const formData = new FormData();
+    
+    // Append file if exists
+    if (tarea.tarea_realizada) {
+      formData.append('adjunto', tarea.tarea_realizada);
+    }
+    
+    // Remove adjunto from tarea object before sending
+    const { tarea_realizada, ...tareaData } = tarea;
+    
+    // Append tarea data as JSON string
+    Object.keys(tareaData).forEach(key => {
+      // @ts-ignore
+      formData.append(key, tareaData[key]);
+    });
+
+    return this.http.put<Tarea>(`${this.apiUrl}/tareas/${tarea.id}`, formData);
+  }
   
+
+  cancelarTarea(id: number) {
+    return this.http.put(`${this.apiUrl}/tareas/${id}`, {
+      estado: "Cancelada"
+    });
+  }
 }
