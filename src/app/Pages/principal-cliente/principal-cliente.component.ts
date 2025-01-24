@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Core/Services/auth.service';
 import { UserProfile } from '../../Core/Interfaces/user-profile';
-import { Comentario, Tarea } from '../../Core/Interfaces/tarea.interface';
+import { Comentario, Encuesta, Tarea } from '../../Core/Interfaces/tarea.interface';
 import { TareasService } from '../../Core/Services/tareas.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ComentariosService } from '../../Core/Services/comentarios.service';
 import { ComprobantesService } from '../../Core/Services/comprobantes.service';
+import { EncuestaService } from '../../Core/Services/encuesta.service';
 
 @Component({
   selector: 'app-principal-cliente',
@@ -25,6 +26,7 @@ export class PrincipalCliente {
   tareasService = inject(TareasService);
   comentariosService = inject(ComentariosService);
   comprobantesService = inject(ComprobantesService);
+  encuestasService = inject(EncuestaService);
 
   id: number | undefined = undefined;
   perfilVisible = false;
@@ -54,14 +56,13 @@ export class PrincipalCliente {
 
   tareasUsuarios: Tarea[] = []
 
-  encuesta = {
+  encuesta: Encuesta = {
+    id_tarea: 0,
     atencion: '',
-    calidad: '',
     costo: '',
-    nota: ''
+    calidad: '',
+    nota: 0
   };
-
-
 
   constructor(private router: Router, private sanitizer: DomSanitizer) {
     this.id = this.authService.getUserProfile()!.usuario_id;
@@ -149,7 +150,6 @@ export class PrincipalCliente {
     });
   }
 
-
   cancelarTarea(tarea: any, event: Event) {
     event.stopPropagation();
     alert(`Tarea cancelada para ${tarea.nombre}`);
@@ -227,7 +227,20 @@ export class PrincipalCliente {
     this.fechaFin = '';
   }
 
-  abrirEncuesta() {
+  abrirEncuesta(tarea: Tarea, event: Event) {
+    if (!event) return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.tareaSeleccionada = tarea;
+    console.log(tarea);
+    // Initialize encuesta with current tarea id
+    this.encuesta = {
+      id_tarea: tarea.id!,
+      atencion: '',
+      costo: '',
+      calidad: '',
+      nota: 0
+    };
     this.encuestaVisible = true;
   }
 
@@ -236,8 +249,19 @@ export class PrincipalCliente {
   }
 
   enviarEncuesta() {
-    alert('Encuesta enviada. ¡Gracias por tu feedback!');
-    this.cerrarEncuesta();
+    if (!this.tareaSeleccionada || !this.encuesta) return;
+
+    this.encuestasService.createEncuesta(this.encuesta).subscribe({
+      next: (response) => {
+        alert('Encuesta enviada. ¡Gracias por tu feedback!');
+        this.cerrarEncuesta();
+        this.getTareas();
+      },
+      error: (error) => {
+        alert('Error al enviar la encuesta');
+        console.error('Error:', error);
+      }
+    });
   }
 
   seleccionarTarea(tarea: any) {

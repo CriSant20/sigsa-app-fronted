@@ -65,7 +65,7 @@
             </td>
             <td>
               @if (tarea.estado === 'Finalizado') {
-              <button class="survey-button" (click)="abrirEncuesta()">Encuesta</button>
+              <button class="survey-button" (click)="abrirEncuesta(tarea, $event)">Encuesta</button>
               }
               @else if (tarea.estado === "Rechazada") {
               <p>Rechazada</p>
@@ -171,38 +171,50 @@
     <div class="modal-content">
       <button class="close" (click)="cerrarEncuesta()">X</button>
       <h2>Encuesta de Satisfacción</h2>
-      <form (ngSubmit)="enviarEncuesta()">
-        <div>
-          <label>¿Cómo calificaría la atención recibida?</label>
-          <select [(ngModel)]="encuesta.atencion" name="atencion">
-            <option value="Buena">Buena</option>
-            <option value="Normal">Regular</option>
-            <option value="Mala">Mala</option>
-          </select>
-        </div>
-        <div>
-          <label>¿Cómo calificaría la calidad de su tarea?</label>
-          <select [(ngModel)]="encuesta.calidad" name="resolucion">
-            <option value="Excelente">Excelente</option>
-            <option value="Normal">Regular</option>
-            <option value="Mala">Mala</option>
-          </select>
-        </div>
-        <div>
-          <label>¿Cómo calificaría el costo de su tarea?</label>
-          <select [(ngModel)]="encuesta.costo" name="resolucion">
-            <option value="Caro">Caro</option>
-            <option value="Normal">Normal</option>
-            <option value="Barato">Barato</option>
-          </select>
-        </div>
-        <div>
-          <label>¿Qué nota obtuviste en la tarea?</label>
-          <input type="number" [(ngModel)]="encuesta.nota" name="nota" min="0" max="10" required
-            placeholder="Ingrese nota (0-10)" />
-        </div>
-        <button type="submit">Enviar</button>
-      </form>
+      @if (tareaSeleccionada?.encuestas?.length === 0) {
+        <form (ngSubmit)="enviarEncuesta()">
+          <div>
+            <label>¿Cómo calificaría la atención recibida?</label>
+            <select [(ngModel)]="encuesta.atencion" name="atencion">
+              <option value="Buena">Buena</option>
+              <option value="Normal">Regular</option>
+              <option value="Mala">Mala</option>
+            </select>
+          </div>
+          <div>
+            <label>¿Cómo calificaría la calidad de su tarea?</label>
+            <select [(ngModel)]="encuesta.calidad" name="resolucion">
+              <option value="Excelente">Excelente</option>
+              <option value="Normal">Regular</option>
+              <option value="Mala">Mala</option>
+            </select>
+          </div>
+          <div>
+            <label>¿Cómo calificaría el costo de su tarea?</label>
+            <select [(ngModel)]="encuesta.costo" name="resolucion">
+              <option value="Caro">Caro</option>
+              <option value="Normal">Normal</option>
+              <option value="Barato">Barato</option>
+            </select>
+          </div>
+          <div>
+            <label>¿Qué nota obtuviste en la tarea?</label>
+            <input type="number" [(ngModel)]="encuesta.nota" name="nota" min="0" max="10" required
+              placeholder="Ingrese nota (0-10)" />
+          </div>
+          <button type="submit">Enviar</button>
+        </form>
+      }@else {
+        <p class="encuesta-texto"><strong>Haz Realizado Tu Encuesta</strong></p>
+        @if (tareaSeleccionada) {
+          @if (tareaSeleccionada.encuestas) {
+            <p><strong>Calificación de Atención:</strong> {{ tareaSeleccionada.encuestas[0].atencion }}</p>
+            <p><strong>Calificación de Calidad:</strong> {{ tareaSeleccionada.encuestas[0].calidad }}</p>
+            <p><strong>Calificación de Costo:</strong> {{ tareaSeleccionada.encuestas[0].costo }}</p>
+            <p><strong>Nota Obtenida:</strong> {{ tareaSeleccionada.encuestas[0].nota }}</p>
+          }
+        }
+      }
     </div>
   </div>
 

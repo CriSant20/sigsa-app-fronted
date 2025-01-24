@@ -432,3 +432,8 @@ header h1, .logo {
 input[type="file"] {
   display: none;
 }
+
+.encuesta-texto {
+  text-align: center;
+  margin-top: 20px;
+}
