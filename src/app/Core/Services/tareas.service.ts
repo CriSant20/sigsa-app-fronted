@@ -34,5 +34,11 @@ export class TareasService {
 
     return this.http.post<Tarea>(`${this.apiUrl}/tareas`, formData);
   }
+
+  updateEstado(tareaId: number, tarea: { estado: string }): Observable<Tarea> {
+    return this.http.put<Tarea>(`${this.apiUrl}/${tareaId}`, tarea);
+  }
+  
+  
   
 }

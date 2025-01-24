@@ -19,6 +19,7 @@ export interface Tarea {
     comentarios?:         Comentario[];
     encuestas?:           Encuesta[];
     comprobantes?:         Comprobante[];
+    showDetails?: boolean; 
 }
 
 export interface Comentario {
