@@ -16,6 +16,14 @@ import { CommonModule } from '@angular/common';
 export class PantallaGestionAdministradorComponent implements OnInit {
 
   cards: any[] = []; // Array para almacenar las tarjetas
+  priorityOrder: string[] = [
+    'En Revisión',
+    'Aprobada',
+    'En progreso',
+    'Finalizado',
+    'Rechazada',
+    'Cancelada',
+  ]; // Orden de prioridad
 
   constructor(private cardsService: CardsService) {}
 
@@ -24,4 +32,26 @@ export class PantallaGestionAdministradorComponent implements OnInit {
       this.cards = data; // Asigna los datos de la API al array
     });
   }
+
+  /**
+   * Ordena las tarjetas según el estado en base a la prioridad definida.
+   */
+  private sortCardsByPriority(cards: any[]): any[] {
+  return cards.sort((a, b) => {
+    // Orden por estado
+    const indexA = this.priorityOrder.indexOf(a.estado);
+    const indexB = this.priorityOrder.indexOf(b.estado);
+
+    if (indexA !== indexB) {
+      // Si los estados son diferentes, ordena por el índice del estado
+      return indexA - indexB;
+    }
+
+    // Si los estados son iguales, ordena por fecha (fecha_a_realizar)
+    const dateA = new Date(a.fecha_a_realizar).getTime();
+    const dateB = new Date(b.fecha_a_realizar).getTime();
+
+    return dateA - dateB; // Orden ascendente por fecha
+  });
+}
 }

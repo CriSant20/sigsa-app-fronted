@@ -19,5 +19,12 @@ export class CardsComponent {
   }; */
 
   @Input() tarea: any; // Recibe datos desde el componente padre
-
+  // Método para generar clases dinámicas según el estado
+  getEstadoClase(): string {
+    // Convierte el estado a minúsculas, reemplaza espacios con guiones y elimina caracteres especiales
+    return this.tarea?.estado
+      ?.toLowerCase()
+      ?.replace(/\s+/g, '-')
+      ?.replace(/[^a-z0-9\-]/g, '') || '';
+  }
 }
