@@ -16,18 +16,20 @@
             <span class="brand-name">SIGSA</span>
           </h1>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <button type="button" class="social-login-btn google-btn">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/245cacfebc77e378632151137f8febc7590cbe0d17299a1552837579e07ef9b8?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
-                class="social-icon"
-                alt="Google login icon"
-             
-              />
-              <span>   <a href="http://localhost:3000/api/auth/google" target="_blank" rel="noopener noreferrer">
-                Login with Google
-              </a></span>
-            </button>
+            <button 
+            onclick="window.location.href='http://localhost:3000/api/auth/google'" 
+            type="button" 
+            class="social-login-btn google-btn" 
+          >
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/245cacfebc77e378632151137f8febc7590cbe0d17299a1552837579e07ef9b8?apiKey=80852b51fda1420c82cd112fb3ec8c81&"
+              class="social-icon"
+              alt="Google login icon"
+              style="width: 20px; height: 20px;"
+            />
+            <span>Login with Google</span>
+          </button>
             <button type="button" class="social-login-btn facebook-btn">
               <img
                 loading="lazy"
