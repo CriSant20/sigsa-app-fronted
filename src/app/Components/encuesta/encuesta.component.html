@@ -1,0 +1,55 @@
+<div class="card" style="width: 18rem;">
+  <!-- Mostrar la imagen si 'adjunto_url' existe, de lo contrario mostrar un placeholder -->
+  <img class="card-img-top" alt="Imagen adjunta" *ngIf="tarea.adjunto_url; else placeholder" [src]="tarea.adjunto_url" />
+  <ng-template #placeholder>
+    <img class="card-img-top" alt="Imagen adjunta" src="path/to/placeholder-image.jpg" />
+  </ng-template>
+
+  <div class="card-body">
+    <!-- Nombre de la tarea -->
+    <h5 class="card-title"><strong>Tarea:</strong> {{ tarea.Tarea }}</h5>
+    
+    <!-- Tipo de tarea -->
+    <p class="card-text" *ngIf="tarea.tipo_tarea">
+      <strong>Tipo de tarea:</strong> {{ tarea.tipo_tarea }}
+    </p>
+
+    <!-- Cliente -->
+    <p class="card-text"><strong>Cliente:</strong> {{ tarea.Cliente }}</p>
+
+    <!-- Indicaciones -->
+    <p class="card-text">
+      <strong>Indicaciones:</strong> {{ tarea.indicaciones }}
+    </p>
+
+    <!-- Rúbrica -->
+    <p class="card-text">
+      <strong>Rúbrica:</strong> {{ tarea.rubrica }}
+    </p>
+
+    <!-- Estado -->
+    <p class="card-text" *ngIf="tarea.estado !== undefined">
+      <strong>Estado:</strong> {{ tarea.estado }}
+    </p>
+
+    <!-- Atención -->
+    <p class="card-text"><strong>Atención:</strong> {{ tarea.atencion }}</p>
+
+    <!-- Costo -->
+    <p class="card-text"><strong>Costo:</strong> {{ tarea.costo }}</p>
+
+    <!-- Calidad -->
+    <p class="card-text"><strong>Calidad:</strong> {{ tarea.calidad }}</p>
+
+    <!-- Nota -->
+    <p class="card-text"><strong>Nota:</strong> {{ tarea.nota }}</p>
+
+    <!-- Fecha a realizar -->
+    <p class="card-text">
+      <strong>Fecha a realizar:</strong> {{ tarea.fecha_a_realizar | date: 'shortDate' }}
+    </p>
+
+    <!-- Botón de acción -->
+    <a href="#" class="btn btn-primary">Leer más</a>
+  </div>
+</div>
