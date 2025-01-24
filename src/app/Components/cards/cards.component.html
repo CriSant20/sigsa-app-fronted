@@ -25,8 +25,12 @@
     </p>
     
     <!-- Estado con color dinámico -->
-    <p class="card-text estado" [ngClass]="getEstadoClase()">
+<!--     <p class="card-text estado" [ngClass]="getEstadoClase()">
       <strong>Estado:</strong> {{ tarea.estado }}
+    </p> -->
+    <p class="card-text">
+      <strong>Estado:</strong> 
+      <span class="estado" [ngClass]="getEstadoClase()">{{ tarea.estado }}</span>
     </p>
     
     <!-- Fecha de entrega -->

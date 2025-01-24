@@ -29,7 +29,8 @@ export class PantallaGestionAdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardsService.getCards().subscribe((data) => {
-      this.cards = data; // Asigna los datos de la API al array
+      //this.cards = data; // Asigna los datos de la API al array
+      this.cards = this.sortCardsByPriority(data);
     });
   }
 

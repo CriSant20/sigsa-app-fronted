@@ -36,7 +36,7 @@ export class TareasService {
   }
 
   updateEstado(tareaId: number, tarea: { estado: string }): Observable<Tarea> {
-    return this.http.put<Tarea>(`${this.apiUrl}/${tareaId}`, tarea);
+    return this.http.put<Tarea>(`${this.apiUrl}/tareas/${tareaId}`, tarea);
   }
   
   

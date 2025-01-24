@@ -17,6 +17,7 @@ import { EncuestaService } from '../../Core/Services/encuesta.service';
 import { NavbarComponent } from '../../Components/navbar/navbar.component';
 import { MenuComponent } from '../../Components/menu/menu.component';
 import { FooterComponent } from '../../Components/footer/footer.component';
+import { TaskState } from '../../Core/enums/tareas.enum';
 @Component({
   selector: 'app-gestion-administrador-tareas',
   templateUrl: './gestion-administrador-tareas.component.html',
@@ -289,34 +290,28 @@ export class GestionAdministradorTareasComponent {
     }
   }
 
-  actualizarEstado(): void {
-    if (this.tareaSeleccionada) {
-      const tareaId = this.tareaSeleccionada.id; // ID de la tarea
-      const nuevoEstado = this.tareaSeleccionada.estado; // Estado actual
-
-      if (!tareaId || !nuevoEstado) {
-        alert('Faltan datos para actualizar la tarea');
-        console.error('Datos inválidos:', { tareaId, nuevoEstado });
-        return;
-      }
-
-      console.log(`Actualizando estado de tarea ${tareaId} a "${nuevoEstado}"`);
-
-      this.tareasService
-        .updateEstado(tareaId, { estado: nuevoEstado })
-        .subscribe(
-          (res) => {
-            alert('Estado de tarea actualizado con éxito');
-          },
-          (err) => {
-            console.error('Error al actualizar estado:', err);
-            alert(
-              `Error al actualizar el estado de la tarea: ${
-                err.error?.message || 'Error desconocido'
-              }`
-            );
-          }
-        );
+  actualizarEstado(tareaId: number, nuevoEstado: string): void {
+    if (!tareaId || !nuevoEstado) {
+      alert('Faltan datos para actualizar la tarea');
+      console.error('Datos inválidos:', { tareaId, nuevoEstado });
+      return;
     }
+  
+    console.log(`Actualizando estado de tarea ${tareaId} a "${nuevoEstado}"`);
+  
+    // Llama al servicio para actualizar el estado en el backend
+    this.tareasService.updateEstado(tareaId, { estado: nuevoEstado }).subscribe(
+      (res) => {
+        alert('Estado de tarea actualizado con éxito');
+      },
+      (err) => {
+        console.error('Error al actualizar estado:', err);
+        alert(
+          `Error al actualizar el estado de la tarea: ${
+            err.error?.message || 'Error desconocido'
+          }`
+        );
+      }
+    );
   }
 }

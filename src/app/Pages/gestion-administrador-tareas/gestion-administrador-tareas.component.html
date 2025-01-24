@@ -53,16 +53,14 @@
                   <td>{{ tarea.fecha_a_realizar }}</td>
                   <td>
                     <select
-                      *ngIf="tareaSeleccionada"
-                      [(ngModel)]="tareaSeleccionada.estado"
-                      (ngModelChange)="actualizarEstado()"
-                    >
-                      <option [value]="TaskState.EN_REVISION">{{ TaskState.EN_REVISION }}</option>
-                      <option [value]="TaskState.APROBADA">{{ TaskState.APROBADA }}</option>
-                      <option [value]="TaskState.EN_PROGRESO">{{ TaskState.EN_PROGRESO }}</option>
-                      <option [value]="TaskState.FINALIZADO">{{ TaskState.FINALIZADO }}</option>
-                      <option [value]="TaskState.RECHAZADA">{{ TaskState.RECHAZADA }}</option>
-                      <option [value]="TaskState.CANCELADA">{{ TaskState.CANCELADA }}</option>
+                    [(ngModel)]="tarea.estado" 
+                    (change)="actualizarEstado(tarea.id ?? 0, tarea.estado || '')">
+                    <option [value]="TaskState.EN_REVISION">{{ TaskState.EN_REVISION }}</option>
+                    <option [value]="TaskState.APROBADA">{{ TaskState.APROBADA }}</option>
+                    <option [value]="TaskState.EN_PROGRESO">{{ TaskState.EN_PROGRESO }}</option>
+                    <option [value]="TaskState.FINALIZADO">{{ TaskState.FINALIZADO }}</option>
+                    <option [value]="TaskState.RECHAZADA">{{ TaskState.RECHAZADA }}</option>
+                    <option [value]="TaskState.CANCELADA">{{ TaskState.CANCELADA }}</option>
                     </select>
                   </td>
                   
